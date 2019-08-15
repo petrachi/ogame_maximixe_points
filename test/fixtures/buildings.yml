@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  metal_cost: 1
+  cristal_cost: 1
+  deuterium_cost: 1
+  energy_cost: 1
+  metal_production: 1
+  cristal_production: 1
+  deuterium_production: 1
+  energy_production: 1
+
+two:
+  name: MyString
+  metal_cost: 1
+  cristal_cost: 1
+  deuterium_cost: 1
+  energy_cost: 1
+  metal_production: 1
+  cristal_production: 1
+  deuterium_production: 1
+  energy_production: 1

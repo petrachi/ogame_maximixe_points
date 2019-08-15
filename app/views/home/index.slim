@@ -1,0 +1,13 @@
+h1 Hello
+
+- @player.planets.each do |planet|
+  h3 = planet.name
+  p Metal production : #{ planet.production['metal'] }
+  
+  ul
+    - planet.building_levels.each do |building|
+      li 
+        h4 = building.building.name
+        p 
+          | actual level costs : 
+          | metal #{ building.costs['metal'] }
