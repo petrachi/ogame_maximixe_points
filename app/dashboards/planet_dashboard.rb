@@ -13,6 +13,7 @@ class PlanetDashboard < Administrate::BaseDashboard
     buildings: Field::HasMany,
     id: Field::Number,
     name: Field::String,
+    temperature: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -37,6 +38,7 @@ class PlanetDashboard < Administrate::BaseDashboard
     :buildings,
     :id,
     :name,
+    :temperature,
     :created_at,
     :updated_at,
   ].freeze
@@ -49,6 +51,7 @@ class PlanetDashboard < Administrate::BaseDashboard
     :building_levels,
     :buildings,
     :name,
+    :temperature,
   ].freeze
 
   # Overwrite this method to customize how planets are displayed

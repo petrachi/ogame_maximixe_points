@@ -1,9 +1,21 @@
 class Building < ApplicationRecord
-  has_many :building_effects
-  has_many :building_levels
-  has_many :planets, through: :building_levels
+  belongs_to :planet
+  belongs_to :blueprint
+  has_many :building_effects, through: :blueprint
 
-  def self.[] value
-    find_by(name: value)
+  def produces(modifiers: {})
+    blueprint.produces(
+      level: level + modifiers.fetch(:level, 0),
+      temperature: planet.temperature,
+      energy_tech: 8
+    )
+  end
+
+  def stocks modifiers: {}
+    blueprint.stocks(level: level + modifiers.fetch(:level, 0))
+  end
+
+  def costs modifiers: {}
+    blueprint.costs(level: level + modifiers.fetch(:level, 0))
   end
 end

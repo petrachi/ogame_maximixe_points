@@ -4,7 +4,7 @@ class CreateBuildingEffects < ActiveRecord::Migration[5.1]
       t.string :ressource
       t.string :effect
       t.string :quantity
-      t.references :building, foreign_key: true
+      t.references :blueprint, foreign_key: true
 
       t.timestamps
     end

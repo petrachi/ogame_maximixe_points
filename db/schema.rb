@@ -15,34 +15,39 @@ ActiveRecord::Schema.define(version: 20190815195858) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "blueprints", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "building_effects", force: :cascade do |t|
     t.string "ressource"
     t.string "effect"
     t.string "quantity"
-    t.bigint "building_id"
+    t.bigint "blueprint_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["building_id"], name: "index_building_effects_on_building_id"
-  end
-
-  create_table "building_levels", force: :cascade do |t|
-    t.integer "level"
-    t.bigint "planet_id"
-    t.bigint "building_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["building_id"], name: "index_building_levels_on_building_id"
-    t.index ["planet_id"], name: "index_building_levels_on_planet_id"
+    t.index ["blueprint_id"], name: "index_building_effects_on_blueprint_id"
   end
 
   create_table "buildings", force: :cascade do |t|
-    t.string "name"
+    t.integer "level"
+    t.bigint "planet_id"
+    t.bigint "blueprint_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["blueprint_id"], name: "index_buildings_on_blueprint_id"
+    t.index ["planet_id"], name: "index_buildings_on_planet_id"
   end
 
   create_table "planets", force: :cascade do |t|
     t.string "name"
+    t.integer "temperature"
+    t.integer "metal", default: 0
+    t.integer "cristal", default: 0
+    t.integer "deuterium", default: 0
+    t.datetime "last_production", default: "2019-08-17 15:16:26"
     t.bigint "player_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -55,7 +60,7 @@ ActiveRecord::Schema.define(version: 20190815195858) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "building_effects", "buildings"
-  add_foreign_key "building_levels", "buildings"
-  add_foreign_key "building_levels", "planets"
+  add_foreign_key "building_effects", "blueprints"
+  add_foreign_key "buildings", "blueprints"
+  add_foreign_key "buildings", "planets"
 end

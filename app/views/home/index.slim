@@ -1,13 +1,26 @@
 h1 Hello
 
-- @player.planets.each do |planet|
+p total production
+pre = JSON.pretty_generate @player.produces
+p total storage
+pre = JSON.pretty_generate @player.stocks
+p production costs
+pre = JSON.pretty_generate @player.production_costs
+
+p storgae lvl needed 
+pre = JSON.pretty_generate @player.needed_storage_level
+
+p storage to_build
+pre = JSON.pretty_generate(StorageCalculator.new(@player).storage_level_to_build)
+
+- @player.planets.order(:id).each do |planet|
+  - planet.update_ressources!
   h3 = planet.name
-  p Metal production : #{ planet.production['metal'] }
+  p Metal : #{ planet.metal }
+  p Cristal : #{ planet.cristal }
+  p Deuterium : #{ planet.deuterium }
   
-  ul
-    - planet.building_levels.each do |building|
-      li 
-        h4 = building.building.name
-        p 
-          | actual level costs : 
-          | metal #{ building.costs['metal'] }
+  p buildings : #{ planet.buildings.inject({}){ |buildings, building| buildings[building.blueprint.name] = building.level; buildings } }
+  p production : #{ planet.produces }
+  p storage : #{ planet.stocks } 
+  

@@ -10,7 +10,7 @@ class BuildingLevelDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     planet: Field::BelongsTo,
     building: Field::BelongsTo,
-    building_effects: Field::HasMany,
+    # building_effects: Field::HasMany,
     id: Field::Number,
     level: Field::Number,
     created_at: Field::DateTime,
@@ -25,7 +25,7 @@ class BuildingLevelDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :planet,
     :building,
-    :building_effects,
+    # :building_effects,
     :id,
   ].freeze
 
@@ -34,7 +34,7 @@ class BuildingLevelDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :planet,
     :building,
-    :building_effects,
+    # :building_effects,
     :id,
     :level,
     :created_at,
@@ -47,7 +47,7 @@ class BuildingLevelDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :planet,
     :building,
-    :building_effects,
+    # :building_effects,
     :level,
   ].freeze
 
