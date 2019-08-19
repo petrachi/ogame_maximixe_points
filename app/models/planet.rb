@@ -7,41 +7,31 @@ class Planet < ApplicationRecord
     find_by(name: value)
   end
 
-  def update_ressources!
+  def update_ressources_since_last_production!
     now = Time.now
-
-    update_params = {
-      metal: metal,
-      cristal: cristal,
-      deuterium: deuterium,
-    }.merge(
-      production_since_last_production time_since_last_production: now - last_production
-    ) do |ressource, a, b|
-      [a + b, stocks[ressource]].min
-    end
-
-    update_params.slice!(:metal, :cristal, :deuterium)
-    update_params[:last_production] = now
-    update update_params
+    update_ressources! produces_in(time: now - last_production)
+    update! last_production: now
   end
 
-  def production_since_last_production time_since_last_production:
+  def update_ressources!(ressources)
+    update! holds.merge(ressources){ |_, a, b| a + b }
+  end
+
+  def produces_in time:
     produces
       .slice(:metal, :cristal, :deuterium)
       .each_with_object({}) do |(ressource, value), acc|
-        acc[ressource] = value * time_since_last_production / 3600
+        acc[ressource] = [
+          value * time / 3600,
+          [
+            stocks[ressource] - holds[ressource],
+            0,
+          ].max,
+        ].min
       end
   end
 
   def ressources
-    holds = self.holds
-    produces = self.produces
-    stocks = self.stocks
-
-    p holds
-    p produces
-    p "---"
-
     holds.each_with_object({}) do |(ressource, hold), acc|
       acc[ressource] = {
         holds: hold,
@@ -52,7 +42,10 @@ class Planet < ApplicationRecord
   end
 
   def holds
-    attributes.slice(*%w[metal cristal deuterium]).map{ |k, v| [k.to_sym, v] }.to_h
+    attributes
+      .slice(*%w[metal cristal deuterium])
+      .map{ |k, v| [k.to_sym, v] }
+      .to_h
   end
 
   def produces
@@ -66,7 +59,7 @@ class Planet < ApplicationRecord
   def effect effect:
     effect_buildings(effect: effect)
       .map(&effect.to_proc)
-      .inject({}.with_indifferent_access) do |effect, effect_building|
+      .inject({}) do |effect, effect_building|
         effect.merge(effect_building) do |_, a, b|
           a + b
         end

@@ -9,6 +9,11 @@ Rails.application.routes.draw do
     root to: "buildings#index"
   end
 
+  resources :buildings do
+    member do
+      post 'increment_level'
+    end
+  end
   resources :planets
   resources :players
 

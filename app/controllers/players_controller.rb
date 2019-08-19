@@ -10,7 +10,7 @@ class PlayersController < ApplicationController
 
   def show
     set_player
-    @player.planets.each(&:update_ressources!)
+    @player.planets.each(&:update_ressources_since_last_production!)
   end
 
   def set_player

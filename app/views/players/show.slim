@@ -1,24 +1,44 @@
 h3 = @player.name
+
+/ p storage to_build
+/ pre = JSON.pretty_generate(StorageCalculator.new(@player).call)
+/ p production costs
+/ / pre = JSON.pretty_generate(ProductionCostsCalculator.new(@player).call)
+/ p = ProductionCostsCalculator.new(@player).call
+
+
+/ todo: advisor
+/ todo : energy efficiency for production
+
 .ressources
   - @player.ressources.each do |(ressource, values)|
     div class=ressource
-      span.holds = values[:holds]
-      span.produces = values[:produces]
-      span.stocks = values[:stocks]
+      span.holds = number_with_delimiter values[:holds].to_i
+      span.produces = number_with_delimiter values[:produces].to_i
+      span.stocks = number_with_delimiter values[:stocks].to_i
 
 - @player.planets.order(:id).each do |planet|
   h3 = planet.name
   - planet.ressources.each do |(ressource, values)|
     div class=ressource
-      span.holds = values[:holds]
-      span.produces = values[:produces]
-      span.stocks = values[:stocks]
+      span.holds = number_with_delimiter values[:holds].to_i
+      span.produces = number_with_delimiter values[:produces].to_i
+      span.stocks = number_with_delimiter values[:stocks].to_i
+  div class='energy'
+    span.produces = number_with_delimiter planet.produces[:energy].to_i
+  
+  
+  = form_with model: planet do |f|
+    = f.text_field :metal
+    = f.text_field :cristal
+    = f.text_field :deuterium
+    = f.submit "Update ressources"
+  
   
   - planet.buildings.each do |building|
     p = building.blueprint.name
     p = building.level
-    = form_with model: building do |f|
-      = f.hidden_field :level, building.level + 1
+    = form_with url: increment_level_building_path(building) do |f|
       = f.submit "Update to level #{ building.level + 1 }"
     
     
@@ -27,14 +47,3 @@ h3 = @player.name
   = f.text_field :name
   = f.number_field :temperature
   = f.submit "Create"
-
-
-  
-  / p total production
-  / pre = JSON.pretty_generate @player.produces
-  / p total storage
-  / pre = JSON.pretty_generate @player.stocks
-  / p storage to_build
-  / pre = JSON.pretty_generate(StorageCalculator.new(@player).call)
-  / p production costs
-  / pre = JSON.pretty_generate(ProductionCostsCalculator.new(@player).call)
