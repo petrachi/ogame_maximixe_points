@@ -6,18 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-
-
-me = Player.create(name: 'yoyo rapido')
-
-my_planets = Planet.create([
-  {player: me, name: 'Artemis', temperature: 81},
-  {player: me, name: 'Cassini', temperature: 53},
-  {player: me, name: 'Europe', temperature: 67},
-  {player: me, name: 'Eris', temperature: 75},
-  {player: me, name: 'Ariane', temperature: 28},
-])
-
 blueprints = Blueprint.create([
   {name: 'metal_mine'},
   {name: 'cristal_mine'},
@@ -200,6 +188,16 @@ building_effects = BuildingEffect.create([
   },
 ])
 
+me = Player.create(name: 'yoyo rapido')
+
+my_planets = Planet.create([
+  {player: me, name: 'Artemis', temperature: 81},
+  {player: me, name: 'Cassini', temperature: 53},
+  {player: me, name: 'Europe', temperature: 67},
+  {player: me, name: 'Eris', temperature: 75},
+  {player: me, name: 'Ariane', temperature: 28},
+])
+
 def create_buildings_for *levels, planet:
   %i[
     metal_mine
@@ -215,8 +213,8 @@ def create_buildings_for *levels, planet:
   end
 end
 
-create_buildings_for 21, 17, 13, 22, 4, 7, 6, 4, planet: Planet['Artemis']
-create_buildings_for 21, 17, 13, 21, 4, 7, 6, 4, planet: Planet['Cassini']
-create_buildings_for 22, 17, 13, 22, 4, 7, 6, 3, planet: Planet['Europe']
-create_buildings_for 20, 16, 12, 20, 4, 7, 5, 3, planet: Planet['Eris']
-create_buildings_for 20, 16, 12, 20, 4, 7, 5, 3, planet: Planet['Ariane']
+create_buildings_for 23, 18, 14, 22, 4, 8, 6, 4, planet: Planet['Artemis']
+create_buildings_for 22, 18, 14, 23, 4, 8, 6, 4, planet: Planet['Cassini']
+create_buildings_for 23, 19, 15, 22, 5, 8, 7, 5, planet: Planet['Europe']
+create_buildings_for 21, 17, 13, 22, 4, 7, 6, 4, planet: Planet['Eris']
+create_buildings_for 21, 17, 13, 22, 4, 8, 6, 4, planet: Planet['Ariane']

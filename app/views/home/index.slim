@@ -1,17 +1,15 @@
 h1 Hello
 
+p total available
+pre = JSON.pretty_generate @player.ressources
 p total production
 pre = JSON.pretty_generate @player.produces
 p total storage
 pre = JSON.pretty_generate @player.stocks
-p production costs
-pre = JSON.pretty_generate @player.production_costs
-
-p storgae lvl needed 
-pre = JSON.pretty_generate @player.needed_storage_level
-
 p storage to_build
-pre = JSON.pretty_generate(StorageCalculator.new(@player).storage_level_to_build)
+pre = JSON.pretty_generate(StorageCalculator.new(@player).call)
+p production costs
+pre = JSON.pretty_generate(ProductionCostsCalculator.new(@player).call)
 
 - @player.planets.order(:id).each do |planet|
   - planet.update_ressources!

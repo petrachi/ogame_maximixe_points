@@ -1,6 +1,14 @@
 class Player < ApplicationRecord
   has_many :planets
 
+  def ressources
+    planets.each_with_object(Hash.new(0)) do |planet, acc|
+      acc[:metal] += planet.metal
+      acc[:cristal] += planet.cristal
+      acc[:deuterium] += planet.deuterium
+    end
+  end
+
   def produces
     effect(effect: :produces)
   end
@@ -17,13 +25,5 @@ class Player < ApplicationRecord
           a + b
         end
       end
-  end
-
-  def production_costs
-    ProductionCostsCalculator.new(self).production_costs
-  end
-
-  def needed_storage_level
-    StorageCalculator.new(self).needed_storage_level
   end
 end

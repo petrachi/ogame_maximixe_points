@@ -14,8 +14,10 @@ class Planet < ApplicationRecord
       metal: metal,
       cristal: cristal,
       deuterium: deuterium,
-    }.merge(production_since_last_production time_since_last_production: now - last_production) do |_, a, b|
-      a + b
+    }.merge(
+      production_since_last_production time_since_last_production: now - last_production
+    ) do |ressource, a, b|
+      [a + b, stocks[ressource]].min
     end
     update_params.slice!(:metal, :cristal, :deuterium)
     update_params[:last_production] = now
@@ -23,10 +25,11 @@ class Planet < ApplicationRecord
   end
 
   def production_since_last_production time_since_last_production:
-    produces.inject({}) do |production_since_last_production, (ressource, value)|
-      production_since_last_production[ressource] = value * time_since_last_production / 3600
-      production_since_last_production
-    end
+    produces
+      .slice(:metal, :cristal, :deuterium)
+      .each_with_object({}) do |(ressource, value), acc|
+        acc[ressource] = value * time_since_last_production / 3600
+      end
   end
 
   def produces
