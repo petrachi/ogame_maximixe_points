@@ -101,7 +101,7 @@ class ProductionCostsCalculator::ByRessource
   end
 
   def dependencies_for produces
-    produces.except(ressource).delete_if{ |_, quantity| quantity.abs <= 0.0001 }
+    produces.except(ressource).delete_if{ |_, quantity| quantity.nan? || quantity.abs <= 0.0001 }
   end
 
   def costs_for(quantity:)

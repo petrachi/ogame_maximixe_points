@@ -9,5 +9,8 @@ Rails.application.routes.draw do
     root to: "buildings#index"
   end
 
+  resources :planets
+  resources :players
+
   root to: 'home#index'
 end

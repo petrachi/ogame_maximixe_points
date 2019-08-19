@@ -19,6 +19,7 @@ class Planet < ApplicationRecord
     ) do |ressource, a, b|
       [a + b, stocks[ressource]].min
     end
+
     update_params.slice!(:metal, :cristal, :deuterium)
     update_params[:last_production] = now
     update update_params
@@ -32,6 +33,28 @@ class Planet < ApplicationRecord
       end
   end
 
+  def ressources
+    holds = self.holds
+    produces = self.produces
+    stocks = self.stocks
+
+    p holds
+    p produces
+    p "---"
+
+    holds.each_with_object({}) do |(ressource, hold), acc|
+      acc[ressource] = {
+        holds: hold,
+        produces: produces[ressource],
+        stocks: stocks[ressource],
+      }
+    end
+  end
+
+  def holds
+    attributes.slice(*%w[metal cristal deuterium]).map{ |k, v| [k.to_sym, v] }.to_h
+  end
+
   def produces
     effect(effect: :produces)
   end
@@ -43,7 +66,7 @@ class Planet < ApplicationRecord
   def effect effect:
     effect_buildings(effect: effect)
       .map(&effect.to_proc)
-      .inject({}) do |effect, effect_building|
+      .inject({}.with_indifferent_access) do |effect, effect_building|
         effect.merge(effect_building) do |_, a, b|
           a + b
         end

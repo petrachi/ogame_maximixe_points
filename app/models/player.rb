@@ -2,11 +2,11 @@ class Player < ApplicationRecord
   has_many :planets
 
   def ressources
-    planets.each_with_object(Hash.new(0)) do |planet, acc|
-      acc[:metal] += planet.metal
-      acc[:cristal] += planet.cristal
-      acc[:deuterium] += planet.deuterium
-    end
+    effect(effect: :ressources)
+  end
+
+  def holds
+    effect(effect: :holds)
   end
 
   def produces
@@ -21,7 +21,7 @@ class Player < ApplicationRecord
     planets
       .map(&effect.to_proc)
       .inject({}) do |effect, effect_building|
-        effect.merge(effect_building) do |_, a, b|
+        effect.deep_merge(effect_building) do |_, a, b|
           a + b
         end
       end

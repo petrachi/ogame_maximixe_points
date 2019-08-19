@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20190815195858) do
   end
 
   create_table "buildings", force: :cascade do |t|
-    t.integer "level"
+    t.integer "level", default: 0
     t.bigint "planet_id"
     t.bigint "blueprint_id"
     t.datetime "created_at", null: false
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20190815195858) do
     t.integer "metal", default: 0
     t.integer "cristal", default: 0
     t.integer "deuterium", default: 0
-    t.datetime "last_production", default: "2019-08-17 15:16:26"
+    t.datetime "last_production", default: "2019-08-19 19:08:06"
     t.bigint "player_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
