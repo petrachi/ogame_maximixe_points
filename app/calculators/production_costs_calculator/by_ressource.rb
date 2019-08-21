@@ -42,8 +42,8 @@ class ProductionCostsCalculator::ByRessource
         costs_to_add = calculator.costs_for quantity: -quantity
         produces_to_add = calculator.produces_for quantity: -quantity
 
-        costs.merge!(costs_to_add){ |_, a, b| a + b }
-        produces.merge!(produces_to_add){ |_, a, b| a + b }
+        costs.merge!(costs_to_add, &merge_proc(:+))
+        produces.merge!(produces_to_add, &merge_proc(:+))
       end
       dependencies = dependencies_for(produces)
     end
@@ -65,11 +65,8 @@ class ProductionCostsCalculator::ByRessource
     end
   end
 
-  def costs
-    buildings
-    .each_with_object({}) do |building, acc|
-      acc.merge!(building.costs){ |_, a, b| a + b }
-    end
+  def costs **options
+    buildings.costs **options
   end
 
   def base_produces_next_level
@@ -80,7 +77,7 @@ class ProductionCostsCalculator::ByRessource
 
   def produces_next_level
     produces = self.produces(modifiers: {level: 1})
-      .merge(self.produces){ |_, a, b| a - b }
+      .merge(self.produces, &merge_proc(:-))
   end
 
   def base_produces
@@ -89,15 +86,12 @@ class ProductionCostsCalculator::ByRessource
     end
   end
 
-  def produces(modifiers: {})
-    buildings
-      .each_with_object({}) do |building, acc|
-        acc.merge!(building.produces(modifiers: modifiers)){ |_, a, b| a + b }
-      end
+  def produces **options
+    buildings.produces **options
   end
 
   def buildings
-    planet.buildings.includes(:blueprint).where(blueprints: {name: blueprint_name})
+    planet.buildings.where_name(blueprint_name)
   end
 
   def dependencies_for produces

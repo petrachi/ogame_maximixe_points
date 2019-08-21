@@ -6,8 +6,12 @@ class BuildingEffect < ApplicationRecord
     self[:ressource].to_sym
   end
 
+  def effect
+    self[:effect].to_sym
+  end
+
   def quantity_for **options
-    quantity = self.quantity
+    quantity = self.quantity.dup
     quantity.gsub!(/{(\w*)}/){ |match| options.with_indifferent_access.fetch($1, 0) }
     eval quantity
   end

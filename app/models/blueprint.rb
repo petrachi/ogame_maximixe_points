@@ -20,14 +20,10 @@ class Blueprint < ApplicationRecord
   end
 
   def effects_values(effect:, **options)
-    effects(effect: effect).inject({}) do |effects_values, effect|
-      effects_values[effect.ressource] = effect.quantity_for(**options)
-      effects_values
+    building_effects.each_with_object({}) do |building_effect, acc|
+      if building_effect.effect == effect
+        acc[building_effect.ressource] = building_effect.quantity_for(**options)
+      end
     end
-  end
-
-  def effects(effect:)
-    building_effects
-      .where(effect: effect)
   end
 end

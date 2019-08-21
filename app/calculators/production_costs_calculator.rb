@@ -7,7 +7,7 @@ class ProductionCostsCalculator
 
   def call
     player.planets.each_with_object({}) do |planet, acc|
-      acc[planet.name] = ProductionCostsCalculator::ByPlanet.new(planet).call
+      acc[planet] = ProductionCostsCalculator::ByPlanet.new(planet).call
     end
   end
 end

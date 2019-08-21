@@ -13,8 +13,17 @@ class PlayersController < ApplicationController
     @player.planets.each(&:update_ressources_since_last_production!)
   end
 
+  def advisor
+    set_player
+    @player.planets.each(&:update_ressources_since_last_production!)
+  end
+
   def set_player
-    @player = Player.find_by id: params[:id]
+    @player = Player
+      .includes(
+        planets: {buildings: :blueprint}
+      )
+      .find_by id: params[:id]
   end
 
   def player_params

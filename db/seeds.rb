@@ -213,8 +213,8 @@ def create_buildings_for *levels, planet:
   end
 end
 
-create_buildings_for 23, 18, 14, 22, 4, 8, 6, 4, planet: Planet['Artemis']
-create_buildings_for 22, 18, 14, 23, 4, 8, 6, 4, planet: Planet['Cassini']
-create_buildings_for 23, 19, 15, 22, 5, 8, 7, 5, planet: Planet['Europe']
-create_buildings_for 21, 17, 13, 22, 4, 7, 6, 4, planet: Planet['Eris']
-create_buildings_for 21, 17, 13, 22, 4, 8, 6, 4, planet: Planet['Ariane']
+create_buildings_for 23, 19, 15, 23, 4, 8, 6, 4, planet: Planet['Artemis']
+create_buildings_for 23, 19, 15, 24, 4, 8, 6, 4, planet: Planet['Cassini']
+create_buildings_for 23, 19, 15, 24, 5, 8, 7, 5, planet: Planet['Europe']
+create_buildings_for 22, 18, 14, 23, 4, 7, 6, 4, planet: Planet['Eris']
+create_buildings_for 22, 18, 14, 23, 4, 8, 6, 4, planet: Planet['Ariane']

@@ -1,11 +1,23 @@
 class Planet < ApplicationRecord
   belongs_to :player
-  has_many :buildings
+  has_many :buildings do
+    include Effect
+
+    def [] name
+      includes(:blueprint).find_by(blueprints: {name: name})
+    end
+
+    def where_name name
+      includes(:blueprint).where(blueprints: {name: name})
+    end
+  end
   has_many :blueprints, through: :buildings
 
   def self.[] value
     find_by(name: value)
   end
+
+  delegate :costs, :produces, :stocks, to: :buildings
 
   def update_ressources_since_last_production!
     now = Time.now
@@ -14,7 +26,7 @@ class Planet < ApplicationRecord
   end
 
   def update_ressources!(ressources)
-    update! holds.merge(ressources){ |_, a, b| a + b }
+    update! holds.merge(ressources, &merge_proc(:+))
   end
 
   def produces_in time:
@@ -46,29 +58,5 @@ class Planet < ApplicationRecord
       .slice(*%w[metal cristal deuterium])
       .map{ |k, v| [k.to_sym, v] }
       .to_h
-  end
-
-  def produces
-    effect(effect: :produces)
-  end
-
-  def stocks
-    effect(effect: :stocks)
-  end
-
-  def effect effect:
-    effect_buildings(effect: effect)
-      .map(&effect.to_proc)
-      .inject({}) do |effect, effect_building|
-        effect.merge(effect_building) do |_, a, b|
-          a + b
-        end
-      end
-  end
-
-  def effect_buildings effect:
-    buildings
-      .includes(blueprint: :building_effects)
-      .where(blueprints: {building_effects: {effect: effect}})
   end
 end

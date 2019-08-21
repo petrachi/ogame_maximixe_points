@@ -15,7 +15,11 @@ Rails.application.routes.draw do
     end
   end
   resources :planets
-  resources :players
+  resources :players do
+    member do
+      get 'advisor'
+    end
+  end
 
   root to: 'home#index'
 end

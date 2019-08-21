@@ -14,11 +14,7 @@ class StorageCalculator::ByRessource
   end
 
   def call
-    {
-      actual: actual_level,
-      needed: needed_level,
-      to_build: needed_level - actual_level,
-    }
+    needed_level
   end
 
   def needed_level
@@ -36,9 +32,5 @@ class StorageCalculator::ByRessource
 
   def production_in_storage_wanted_time
     planet.produces[ressource] * storage_wanted_time
-  end
-
-  def actual_level
-    planet.buildings.includes(:blueprint).find_by(blueprints: {name: "#{ressource}_storage"}).level
   end
 end

@@ -9,12 +9,12 @@ class PlanetsController < ApplicationController
 
   def update
     set_planet
+    @planet.update! planet_params
+    redirect_back(fallback_location: player_path(@planet.player))
   end
 
   def set_planet
     @planet = Planet.find_by id: params[:id]
-    @planet.update! planet_params
-    redirect_to @planet.player
   end
 
   def planet_params
