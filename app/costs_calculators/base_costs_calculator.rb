@@ -6,8 +6,10 @@ class BaseCostsCalculator
   end
 
   def call
-    player.planets.each_with_object({}) do |planet, acc|
-      acc[planet] = self.class::ByPlanet.new(planet).call
-    end
+    player
+      .planets
+      .inject([]) do |acc, planet|
+        acc + self.class::ByPlanet.new(planet).call
+      end
   end
 end

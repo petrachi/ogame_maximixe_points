@@ -10,8 +10,8 @@ class BaseCostsCalculator::ByPlanet
   end
 
   def call
-    ressources.each_with_object({}) do |ressource, acc|
-      acc[ressource] = self.class.parent::ByRessource.const_get(ressource.to_s.camelize).new(planet).call
+    ressources.each_with_object([]) do |ressource, acc|
+      acc << self.class.parent::ByRessource.const_get(ressource.to_s.camelize).new(planet).call
     end
   end
 end

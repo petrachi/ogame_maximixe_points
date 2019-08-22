@@ -10,4 +10,8 @@ class StorageCostsCalculator::ByRessource < BaseCostsCalculator::ByRessource
     produces = 0.0 if produces < 0
     produces
   end
+
+  def costs
+    buildings.costs modifiers: {level: 1}
+  end
 end

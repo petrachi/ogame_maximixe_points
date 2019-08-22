@@ -18,17 +18,19 @@ class BaseCostsCalculator::ByRessource
   end
 
   def produces
-    buildings.produces(modifiers: {level: 1}).merge(buildings.produces, &merge_proc(:-))
+    raise NotImplementedError
   end
 
   def costs
-    buildings.costs modifiers: {level: 1}
+    raise NotImplementedError
   end
 
   def call
     {
       produces: produces,
       costs: costs,
+      buildings: buildings,
+      planet: planet,
     }
   end
 end
