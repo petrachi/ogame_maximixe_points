@@ -1,4 +1,6 @@
 class ProductionCostsCalculator::ByRessource < BaseCostsCalculator::ByRessource
+  Dir[Rails.root.join("app/costs_calculators/production_costs_calculator/by_ressource/*.rb")].each { |f| require_dependency f }
+
   attr_accessor :produces, :costs
 
   def initialize *args

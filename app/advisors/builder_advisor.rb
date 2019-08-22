@@ -12,6 +12,7 @@ class BuilderAdvisor
   def build_list
     [
       StorageCostsCalculator,
+      ProductionCostsCalculator,
     ]
       .inject([]) do |acc, calculator|
         acc + calculator.new(player).call
@@ -19,6 +20,7 @@ class BuilderAdvisor
       .each(&method(:add_costs_for_one))
       .each(&method(:add_time_for_one))
       .each(&method(:add_time_index))
+      .sort_by{ |build| build[:time_index] }
   end
 
   def add_costs_for_one build

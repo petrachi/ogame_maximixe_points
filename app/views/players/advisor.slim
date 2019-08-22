@@ -1,24 +1,33 @@
 h3 = link_to @player.name, player_path(@player)
 
-p recommended shipments
-- @player.advisor[:shipments].each do |shipment|
+- BuilderAdvisor.new(@player).build_list.each do |build|
   ul
-    li de #{shipment[:from]}
-    li vers #{shipment[:to].name}
-    li pour #{shipment[:quantity]} #{shipment[:ressource]}
+    li = build[:planet].name
+    li = build[:buildings].map{|building| building.blueprint.name}
+    li = build[:buildings].map{|building| building.level}
+    li = build[:costs_for_one]
+    li = build[:produces]
+    li = build[:time_index]
 
-p recommended buildings
-- @player.advisor[:advises].each do |advise|
-  ul
-    li = advise[:planet].name
-    li = advise[:building].blueprint.name
-    li = advise[:level]
-    li = advise[:costs]
-    li = advise[:index]
-    - if advise[:status] == :ok
-      li 
-        = form_with url: increment_level_building_path(advise[:building]) do |f|
-          = hidden_field_tag :upto, advise[:level]
-          = f.submit "Update to level #{ advise[:level] }"
-    - else
-      li Pas assez d'argent
+/ p recommended shipments
+/ - @player.advisor[:shipments].each do |shipment|
+/   ul
+/     li de #{shipment[:from]}
+/     li vers #{shipment[:to].name}
+/     li pour #{shipment[:quantity]} #{shipment[:ressource]}
+/ 
+/ p recommended buildings
+/ - @player.advisor[:advises].each do |advise|
+/   ul
+/     li = advise[:planet].name
+/     li = advise[:building].blueprint.name
+/     li = advise[:level]
+/     li = advise[:costs]
+/     li = advise[:index]
+/     - if advise[:status] == :ok
+/       li 
+/         = form_with url: increment_level_building_path(advise[:building]) do |f|
+/           = hidden_field_tag :upto, advise[:level]
+/           = f.submit "Update to level #{ advise[:level] }"
+/     - else
+/       li Pas assez d'argent

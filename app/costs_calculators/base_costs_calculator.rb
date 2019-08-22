@@ -1,4 +1,6 @@
 class BaseCostsCalculator
+  Dir[Rails.root.join("app/costs_calculators/base_costs_calculator/*.rb")].each { |f| require_dependency f }
+
   attr_accessor :player
 
   def initialize player
