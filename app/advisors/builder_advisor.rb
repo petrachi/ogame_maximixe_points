@@ -1,8 +1,31 @@
 class BuilderAdvisor
-  attr_accessor :player
+  attr_accessor :player, :needs
 
   def initialize player
     self.player = player
+    self.needs = compute_needed
+  end
+
+  def compute_needed
+    costs = player.costs
+    produces = player.produces
+
+    total_costs = costs.values.inject(0, &:+)
+    total_produces = produces.values.inject(0, &:+)
+
+    costs
+      .each_with_object({}) do |(ressource, quantity), acc|
+        acc[ressource] = quantity / total_costs
+      end
+      .merge(
+        produces.each_with_object({}) do |(ressource, quantity), acc|
+          acc[ressource] = quantity / total_produces
+        end,
+        &merge_proc(:-)
+      ).each_with_object({}) do |(ressource, quantity), acc|
+        acc[ressource] = quantity + 0.025
+        acc[ressource] = 0 if acc[ressource] < 0
+    end
   end
 
   def call
@@ -20,7 +43,9 @@ class BuilderAdvisor
       .each(&method(:add_costs_for_one))
       .each(&method(:add_time_for_one))
       .each(&method(:add_time_index))
-      .sort_by{ |build| build[:time_index] }
+      .each(&method(:add_index))
+      .sort_by{ |build| build[:index] }
+      .uniq{ |build| build[:planet] }
   end
 
   def add_costs_for_one build
@@ -31,8 +56,10 @@ class BuilderAdvisor
   end
 
   def add_time_for_one build
+    produces = player.produces
+    produces[build[:ressource]] += build[:produces]
     build[:time_for_one] = build[:costs_for_one].each_with_object({}) do |(ressource, cost), acc|
-      acc[ressource] = cost / player.produces[ressource] * 3600
+      acc[ressource] = cost / produces[ressource] * 3600
       acc
     end
   end
@@ -41,6 +68,14 @@ class BuilderAdvisor
     build[:time_index] = build[:time_for_one].values.inject(0, &:+)
   end
 
+  def add_index build
+    build[:index] = if %i[metal cristal deuterium].include? build[:ressource]
+      build[:ressource_modifier] = needs
+      build[:time_index] * (1.0/needs[build[:ressource]])
+    else
+      build[:time_index]
+    end
+  end
   # 50 / 100*3600
   # def costs_status build, acc
   #   costs = build[:building]

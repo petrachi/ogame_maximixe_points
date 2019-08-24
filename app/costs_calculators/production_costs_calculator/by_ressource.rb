@@ -13,11 +13,16 @@ class ProductionCostsCalculator::ByRessource < BaseCostsCalculator::ByRessource
   end
 
   def compute_complete_costs_and_production
+    compute_consumptions
+    compute_energy_efficiency
+  end
+
+  def compute_consumptions
     self.produces = base_produces
     self.costs = base_costs
 
-    while produces_to_compute.present?
-      produces_to_compute.each do |(ressource, quantity)|
+    while consumptions_to_compute.present?
+      consumptions_to_compute.each do |(ressource, quantity)|
         calculator = ProductionCostsCalculator::ByRessource
           .const_get(ressource.to_s.camelize)
           .new(planet)
@@ -29,8 +34,6 @@ class ProductionCostsCalculator::ByRessource < BaseCostsCalculator::ByRessource
         produces.merge!(produces_to_add, &merge_proc(:+))
       end
     end
-
-    self.produces = produces[ressource]
   end
 
   def base_produces
@@ -41,7 +44,7 @@ class ProductionCostsCalculator::ByRessource < BaseCostsCalculator::ByRessource
     buildings.costs modifiers: {level: 1}
   end
 
-  def produces_to_compute
+  def consumptions_to_compute
     produces
       .except(ressource)
       .delete_if{ |_, quantity| quantity > -1 }
@@ -57,6 +60,53 @@ class ProductionCostsCalculator::ByRessource < BaseCostsCalculator::ByRessource
     base_produces.each_with_object({}) do |(ressource, produce), acc|
       acc[ressource] = produce * (quantity / base_produces[self.ressource])
     end
+  end
+
+  def compute_energy_efficiency
+    self.produces = if planet.produces[:energy] < 0
+      if ressource == :energy
+        base_production = planet.produces.except(:energy).values.inject(0, &:+)
+        actual_production = base_production * planet.energy_efficiency
+        next_production = base_production * planet.energy_efficiency(extra_consumption: -produces[:energy])
+        next_production - actual_production
+      else
+        0
+      end
+    else
+      if ressource == :energy
+        0
+      else
+        produces[ressource]
+      end
+    end
+
+    #
+    # base_production = planet.produces.except(:energy).values.inject(0, &:+)
+    # actual_production = base_production * planet.energy_efficiency
+    #
+    # next_production = if ressource == :energy
+    #   base_production * planet.energy_efficiency(extra_consumption: -produces[:energy])
+    # else
+    #   (base_production + produces[ressource]) * planet.energy_efficiency(extra_consumption: -base_produces[:energy])
+    # end
+    #
+    # # for deut: if there is not enought energy, the lost in production is usually bigger that the increase, so costs goes to infinite
+    # # that means that deutmine will be shown susbtantialy less often
+    # # It's a nice calc but I dont thuink it is very usefull
+    # # Just set produces to 0 when energy is negative, and don't touch otherwise
+    #
+    #
+    # self.produces = next_production - actual_production
+    # p base_produces[:energy]
+    # p planet.produces[:energy]
+    # p produces
+    # p "*"*45
+    # self.produces = 0.0 if produces < 0
+    # p produces
+    # p "*"*45
+    # if ressource == :energy && produces > 0 && base_produces[:energy] > -planet.produces[:energy]
+    #   self.produces *= base_produces[:energy] / -planet.produces[:energy]
+    # end
   end
 
   # def produces

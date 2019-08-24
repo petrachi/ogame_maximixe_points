@@ -1,6 +1,6 @@
 class BuildingEffect < ApplicationRecord
   belongs_to :blueprint
-  has_many :building_levels, through: :blueprint
+  has_many :buildings, through: :blueprint
 
   def ressource
     self[:ressource].to_sym

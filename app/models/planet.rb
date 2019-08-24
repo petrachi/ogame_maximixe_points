@@ -59,4 +59,14 @@ class Planet < ApplicationRecord
       .map{ |k, v| [k.to_sym, v] }
       .to_h
   end
+
+  def energy_efficiency(extra_consumption: 0)
+    if produces[:energy] > extra_consumption
+      1.0
+    else
+      energy_production = buildings.where_name(['solar_plant', 'fusion_plant']).produces[:energy]
+      energy_consumption = energy_production - produces[:energy] + extra_consumption
+      energy_production / energy_consumption
+    end
+  end
 end

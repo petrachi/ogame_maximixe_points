@@ -7,7 +7,15 @@ h3 = link_to @player.name, player_path(@player)
     li = build[:buildings].map{|building| building.level}
     li = build[:costs_for_one]
     li = build[:produces]
+    li = build[:time_for_one]
     li = build[:time_index]
+    li = build[:ressource_modifier]
+    li = build[:index]
+    li 
+      = form_with url: increment_level_building_path(build[:buildings].first) do |f|
+        = hidden_field_tag :upto, build[:buildings].first.level + 1
+        = f.submit "Update to level #{ build[:buildings].first.level + 1 }"
+
 
 / p recommended shipments
 / - @player.advisor[:shipments].each do |shipment|

@@ -28,6 +28,7 @@ class BaseCostsCalculator
 
     def call
       {
+        ressource: ressource,
         produces: produces,
         costs: costs,
         buildings: buildings,
