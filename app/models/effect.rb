@@ -1,4 +1,4 @@
-class BuildingEffect < ApplicationRecord
+class Effect < ApplicationRecord
   belongs_to :blueprint
   has_many :buildings, through: :blueprint
 

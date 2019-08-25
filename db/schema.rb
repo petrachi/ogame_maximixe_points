@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190815195858) do
+ActiveRecord::Schema.define(version: 20190824194957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,16 +19,6 @@ ActiveRecord::Schema.define(version: 20190815195858) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "building_effects", force: :cascade do |t|
-    t.string "ressource"
-    t.string "effect"
-    t.string "quantity"
-    t.bigint "blueprint_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["blueprint_id"], name: "index_building_effects_on_blueprint_id"
   end
 
   create_table "buildings", force: :cascade do |t|
@@ -41,13 +31,23 @@ ActiveRecord::Schema.define(version: 20190815195858) do
     t.index ["planet_id"], name: "index_buildings_on_planet_id"
   end
 
+  create_table "effects", force: :cascade do |t|
+    t.string "ressource"
+    t.string "effect"
+    t.string "quantity"
+    t.bigint "blueprint_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["blueprint_id"], name: "index_effects_on_blueprint_id"
+  end
+
   create_table "planets", force: :cascade do |t|
     t.string "name"
     t.integer "temperature"
     t.integer "metal", default: 0
     t.integer "cristal", default: 0
     t.integer "deuterium", default: 0
-    t.datetime "last_production", default: "2019-08-19 19:08:06"
+    t.datetime "last_production", default: "2019-08-24 20:06:56"
     t.bigint "player_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -60,7 +60,19 @@ ActiveRecord::Schema.define(version: 20190815195858) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "building_effects", "blueprints"
+  create_table "researches", force: :cascade do |t|
+    t.integer "level"
+    t.bigint "player_id"
+    t.bigint "blueprint_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["blueprint_id"], name: "index_researches_on_blueprint_id"
+    t.index ["player_id"], name: "index_researches_on_player_id"
+  end
+
   add_foreign_key "buildings", "blueprints"
   add_foreign_key "buildings", "planets"
+  add_foreign_key "effects", "blueprints"
+  add_foreign_key "researches", "blueprints"
+  add_foreign_key "researches", "players"
 end

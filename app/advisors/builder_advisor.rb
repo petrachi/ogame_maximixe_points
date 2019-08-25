@@ -1,31 +1,28 @@
 class BuilderAdvisor
-  attr_accessor :player, :needs
+  attr_accessor :player
 
   def initialize player
     self.player = player
-    self.needs = compute_needed
   end
 
-  def compute_needed
-    costs = player.costs
-    produces = player.produces
+  def ideal_ratio
+    ratio_for player.costs
+  end
 
-    total_costs = costs.values.inject(0, &:+)
-    total_produces = produces.values.inject(0, &:+)
+  def actual_ratio
+    ratio_for player.produces.slice(:metal, :cristal, :deuterium)
+  end
 
-    costs
-      .each_with_object({}) do |(ressource, quantity), acc|
-        acc[ressource] = quantity / total_costs
-      end
-      .merge(
-        produces.each_with_object({}) do |(ressource, quantity), acc|
-          acc[ressource] = quantity / total_produces
-        end,
-        &merge_proc(:-)
-      ).each_with_object({}) do |(ressource, quantity), acc|
-        acc[ressource] = quantity + 0.025
-        acc[ressource] = 0 if acc[ressource] < 0
+  def ratio_for ressources
+    total_ressources = ressources.values.inject(0, &:+)
+
+    ressources.each_with_object({}) do |(ressource, quantity), acc|
+      acc[ressource] = quantity / total_ressources
     end
+  end
+
+  def differential_ratio
+    @differential_ratio ||= actual_ratio.merge(ideal_ratio, &merge_proc(:-))
   end
 
   def call
@@ -36,6 +33,7 @@ class BuilderAdvisor
     [
       StorageCostsCalculator,
       ProductionCostsCalculator,
+      ResearchCostsCalculator,
     ]
       .inject([]) do |acc, calculator|
         acc + calculator.new(player).call
@@ -43,9 +41,9 @@ class BuilderAdvisor
       .each(&method(:add_costs_for_one))
       .each(&method(:add_time_for_one))
       .each(&method(:add_time_index))
-      .each(&method(:add_index))
-      .sort_by{ |build| build[:index] }
-      .uniq{ |build| build[:planet] }
+      .each(&method(:add_ratio_index))
+      .sort_by{ |build| build[:ratio_index] }
+      .uniq{ |build| [build[:planet], build[:type]] }
   end
 
   def add_costs_for_one build
@@ -57,7 +55,6 @@ class BuilderAdvisor
 
   def add_time_for_one build
     produces = player.produces
-    produces[build[:ressource]] += build[:produces]
     build[:time_for_one] = build[:costs_for_one].each_with_object({}) do |(ressource, cost), acc|
       acc[ressource] = cost / produces[ressource] * 3600
       acc
@@ -68,15 +65,19 @@ class BuilderAdvisor
     build[:time_index] = build[:time_for_one].values.inject(0, &:+)
   end
 
-  def add_index build
-    build[:index] = if %i[metal cristal deuterium].include? build[:ressource]
-      build[:ressource_modifier] = needs
-      build[:time_index] * (1.0/needs[build[:ressource]])
+  def add_ratio_index build
+    ratio = differential_ratio[build[:ressource]]
+    build[:ratio_index] = if ratio
+      if ratio > 0.01
+        1.0/0
+      else
+        build[:time_index]
+      end
     else
       build[:time_index]
     end
   end
-  # 50 / 100*3600
+
   # def costs_status build, acc
   #   costs = build[:building]
   #     .costs(modifiers: {

@@ -1,7 +1,11 @@
 class Planet < ApplicationRecord
   belongs_to :player
   has_many :buildings do
-    include Effect
+    include HasEffect
+
+    def where_effect(effect)
+      super.includes(:planet, player: {researches: :blueprint})
+    end
 
     def [] name
       includes(:blueprint).find_by(blueprints: {name: name})

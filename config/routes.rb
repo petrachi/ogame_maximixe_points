@@ -20,6 +20,11 @@ Rails.application.routes.draw do
       get 'advisor'
     end
   end
+  resources :researches do
+    member do
+      post 'increment_level'
+    end
+  end
 
   root to: 'home#index'
 end

@@ -1,4 +1,4 @@
-module Effect
+module HasEffect
   def costs **options
     effect(effect: :costs, **options)
   end
@@ -20,6 +20,6 @@ module Effect
   end
 
   def where_effect(effect)
-    includes(:planet, blueprint: :building_effects).where(blueprints: {building_effects: {effect: effect}})
+    includes(blueprint: :effects).where(blueprints: {effects: {effect: effect}})
   end
 end

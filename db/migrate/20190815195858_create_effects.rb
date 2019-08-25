@@ -1,6 +1,6 @@
-class CreateBuildingEffects < ActiveRecord::Migration[5.1]
+class CreateEffects < ActiveRecord::Migration[5.1]
   def change
-    create_table :building_effects do |t|
+    create_table :effects do |t|
       t.string :ressource
       t.string :effect
       t.string :quantity

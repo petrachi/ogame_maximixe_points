@@ -7,6 +7,10 @@ class StorageCostsCalculator::ByRessource < BaseCostsCalculator::ByRessource
     "#{ ressource }_storage"
   end
 
+  def type
+    :building
+  end
+
   def produces
     produces = (planet.produces[ressource] * STORAGE_WANTED_TIME - buildings.stocks[ressource]) / STORAGE_WANTED_TIME
     produces = 0.0 if produces < 0
