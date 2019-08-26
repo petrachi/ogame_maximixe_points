@@ -31,9 +31,10 @@ class BuilderAdvisor
 
   def build_list
     [
-      StorageCostsCalculator,
+      ArtilleryCostsCalculator,
       ProductionCostsCalculator,
       ResearchCostsCalculator,
+      StorageCostsCalculator,
     ]
       .inject([]) do |acc, calculator|
         acc + calculator.new(player).call
@@ -42,8 +43,15 @@ class BuilderAdvisor
       .each(&method(:add_time_for_one))
       .each(&method(:add_time_index))
       .each(&method(:add_ratio_index))
+      .delete_if{ |build| build[:ratio_index] == 1.0/0 }
       .sort_by{ |build| build[:ratio_index] }
-      .uniq{ |build| [build[:planet], build[:type]] }
+      .uniq do |build|
+        if build[:type] == :artillery
+          [build[:planet], build[:type], build[:ressource]]
+        else
+          [build[:planet], build[:type]]
+        end
+      end
   end
 
   def add_costs_for_one build

@@ -3,7 +3,7 @@ class ResearchCostsCalculator < BaseCostsCalculator
     .each { |f| require_dependency f }
 
   def ressources
-    %i[energy plasma]
+    %i[energy plasma astrophysics]
   end
 
   def call

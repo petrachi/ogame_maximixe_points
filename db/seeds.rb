@@ -633,12 +633,12 @@ def create_buildings_for *levels, planet:
   end
 end
 
-create_buildings_for 26, 20, 15, 24, 9, 9, 7, 4, 10, 6, 7, 1, planet: Planet['Artemis']
-create_buildings_for 25, 19, 15, 24, 7, 9, 7, 4, 10, 7, 0, 1, planet: Planet['Cassini']
+create_buildings_for 26, 20, 15, 24, 10, 9, 7, 4, 10, 6, 7, 1, planet: Planet['Artemis']
+create_buildings_for 25, 20, 15, 24, 8, 9, 7, 4, 10, 7, 0, 1, planet: Planet['Cassini']
 create_buildings_for 25, 20, 15, 24, 8, 9, 7, 5, 10, 8, 8, 1, planet: Planet['Europe']
-create_buildings_for 24, 19, 14, 23, 7, 8, 7, 4, 10, 8, 0, 1, planet: Planet['Eris']
-create_buildings_for 25, 19, 14, 24, 4, 9, 7, 4, 10, 8, 0, 1, planet: Planet['Ariane']
-create_buildings_for 20, 13, 0, 18, 0, 7, 5, 0, 10, 6, 0, 1, planet: Planet['Nyx']
+create_buildings_for 24, 20, 14, 23, 9, 8, 7, 4, 10, 8, 0, 1, planet: Planet['Eris']
+create_buildings_for 25, 21, 14, 24, 8, 9, 7, 4, 10, 8, 0, 1, planet: Planet['Ariane']
+create_buildings_for 20, 16, 0, 19, 0, 7, 6, 0, 10, 8, 0, 1, planet: Planet['Nyx']
 
 def create_defenses_for *levels, planet:
   %i[
@@ -653,9 +653,9 @@ def create_defenses_for *levels, planet:
   end
 end
 
-create_defenses_for 700, 0, 20, 0, 50, 0, planet: Planet['Artemis']
-create_defenses_for 550, 25, 30, 0, 50, 0, planet: Planet['Cassini']
-create_defenses_for 380, 0, 100, 0, 60, 0, planet: Planet['Europe']
-create_defenses_for 625, 50, 0, 0, 15, 0, planet: Planet['Eris']
-create_defenses_for 300, 100, 0, 0, 0, 0, planet: Planet['Ariane']
+create_defenses_for 1200, 0, 20, 0, 50, 0, planet: Planet['Artemis']
+create_defenses_for 1550, 25, 30, 0, 50, 0, planet: Planet['Cassini']
+create_defenses_for 1080, 0, 100, 0, 60, 0, planet: Planet['Europe']
+create_defenses_for 1025, 50, 0, 0, 15, 0, planet: Planet['Eris']
+create_defenses_for 900, 100, 0, 0, 0, 0, planet: Planet['Ariane']
 create_defenses_for 0, 0, 25, 0, 0, 0, planet: Planet['Nyx']

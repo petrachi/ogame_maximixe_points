@@ -3,10 +3,16 @@ class ResearchesController < ApplicationController
     set_research
     set_planet
 
-    (@research.level + 1).upto(params[:upto].to_i) do
-      @research.update! level: @research.level + 1
-      @planet.update_ressources! @research.costs.map{ |k, v| [k, -v] }.to_h
-    end
+    params[:increment].to_i.times &method(:increment_one_level)
+
+    redirect_back(fallback_location: player_path(@planet.player))
+  end
+
+  def upto_level
+    set_research
+    set_planet
+
+    (@research.level + 1).upto params[:upto].to_i, &method(:increment_one_level)
 
     redirect_back(fallback_location: player_path(@planet.player))
   end
@@ -17,5 +23,10 @@ class ResearchesController < ApplicationController
 
   def set_planet
     @planet = Planet.find_by id: params[:planet_id]
+  end
+
+  def increment_one_level *_
+    @research.update! level: @research.level + 1
+    @planet.update_ressources! @research.costs.map{ |k, v| [k, -v] }.to_h
   end
 end

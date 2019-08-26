@@ -21,6 +21,10 @@ class BaseCostsCalculator::ByRessource
     raise NotImplementedError
   end
 
+  def upto
+    buildings.first.level + 1
+  end
+
   def produces
     raise NotImplementedError
   end
@@ -37,6 +41,7 @@ class BaseCostsCalculator::ByRessource
       buildings: buildings,
       type: type,
       planet: planet,
+      upto: upto,
     }
   end
 end

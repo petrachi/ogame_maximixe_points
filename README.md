@@ -2,25 +2,15 @@
 
 ### Create
 
-- energy advisor
 - shipping advisor
-- defense advisor
-- research advisor
 
 ## improve
 
-- add enrgy production in calc for production
-- add plasma tech for production effects
+- add the 3 armor/shield/weapon researchs
+  - todo: la production de ça est égale au cout des défenses * somme des trois recherches / 10
+  - (chaque recher augmente le cout/prodcution de 10%)
+- exclure les défenses du calcul du ratio, sinon ils prenent beaucoup trop d'importance
 - add hyperspace tech for shipping space
-- allow to research reasearchs on planets
-
-- costs calculator
-  - OK: calc costs for each build
-  - ok: calc produces for each building
-    - ok: storage produces is how much production is lost due to storage
-    - ok: energy produces is how much production is lost due to lack of electricity
-    - ok: building produces is basic produces taking account of amount of energy left on planet
-    - todo: building produces is basic produces taking account of amount of amount of storage available
 
 - problem:
   - if we have amout od production == storage
@@ -35,10 +25,5 @@
   - (today, only metal mine icrease production when there is not energy, but it is a very small gain, so it seems a not very good investment)
 
 - advisor
-  - ok: get buildings to build
-  - ok: calc costs_for_one
-  - ok: calc time index
-  - ok: order by time index
-  - todo: filter one building by planet
   - todo: calc shippings
   - todo: return shippings and recommended buildings

@@ -32,7 +32,7 @@ p = link_to "Advisor", advisor_player_path(@player)
           p = building.blueprint.name
           p = building.level
           = form_with url: increment_level_building_path(building) do |f|
-            = hidden_field_tag :upto, building.level + 1
+            = hidden_field_tag :increment, 1
             = f.submit "Update to level #{ building.level + 1 }"
       
 = form_with model: @player.planets.build do |f|

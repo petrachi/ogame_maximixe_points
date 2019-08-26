@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :buildings do
     member do
       post 'increment_level'
+      post 'upto_level'
     end
   end
   resources :planets
@@ -23,6 +24,7 @@ Rails.application.routes.draw do
   resources :researches do
     member do
       post 'increment_level'
+      post 'upto_level'
     end
   end
 
