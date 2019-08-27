@@ -1,34 +1,45 @@
 class ArtilleryCostsCalculator::ByPlanet < BaseCostsCalculator::ByPlanet
-  ARTILLERY_INVESTMENT_TIME = 120.0
-
-  attr_accessor :invested_ressources
-
-  def initialize *args
-    super
-    self.invested_ressources = planet
+  def artillery_mix_needed
+    mip_costs = Blueprint['interplanetary_missile_artillery'].costs(level: 1).values.inject(0, &:+)
+    produces = planet
       .produces
       .slice(:metal, :cristal, :deuterium)
       .each_with_object({}) do |(ressource, quantity), acc|
-        acc[ressource] = quantity * ARTILLERY_INVESTMENT_TIME
+        acc[ressource] = quantity * StorageCostsCalculator::ByRessource::STORAGE_WANTED_TIME
       end
-  end
+      .values
+      .inject(0, &:+)
 
-  def ressources
-    %i[
-      plasma
-      gauss
-      ion
-      heavy_laser
-      laser
-      missile
-    ]
+    mip_needed = produces / mip_costs
+    mip_damages = Blueprint['interplanetary_missile_artillery'].damages(level: mip_needed)[:hull]
+    artillery_mix_sustains = ArtilleryCostsCalculator.artillery_mix.sustains[:hull]
+
+    mip_damages / artillery_mix_sustains
   end
 
   def call
-    ressources.each_with_object([]) do |ressource, acc|
-      calculator = self.class.parent::ByRessource.const_get(ressource.to_s.camelize).new(invested_ressources, planet)
-      acc << calculator.call
-      self.invested_ressources = invested_ressources.merge(calculator.costs, &merge_proc(:-))
+    ArtilleryCostsCalculator
+      .artillery_mix(level: artillery_mix_needed)
+      .each_with_object([]) do |building, acc|
+        acc << {
+          ressource: :artillery,
+          produces: produces(building),
+          costs: building.costs,
+          buildings: planet.buildings.where(blueprint_id: building.blueprint_id),
+          type: :artillery,
+          planet: planet,
+          upto: building.level,
+        }
+      end
+      .shuffle
+  end
+
+  def produces(building)
+    planet_building = planet.buildings.find_by(blueprint_id: building.blueprint_id)
+    if planet_building.level >= building.level
+      0.0
+    else
+      1.0/0
     end
   end
 end

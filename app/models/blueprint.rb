@@ -1,6 +1,7 @@
 class Blueprint < ApplicationRecord
   has_many :effects
   has_many :buildings
+  has_many :researchess
 
   def self.[] value
     find_by(name: value)
@@ -16,6 +17,14 @@ class Blueprint < ApplicationRecord
 
   def costs(**options)
     effects_values(effect: :costs, **options)
+  end
+
+  def sustains(**options)
+    effects_values(effect: :sustains, **options)
+  end
+
+  def damages(**options)
+    effects_values(effect: :damages, **options)
   end
 
   def effects_values(effect:, **options)

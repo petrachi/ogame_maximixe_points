@@ -1,4 +1,4 @@
-module HasEffect
+module EffectScopes
   def costs **options
     effect(effect: :costs, **options)
   end
@@ -9,6 +9,14 @@ module HasEffect
 
   def stocks **options
     effect(effect: :stocks, **options)
+  end
+
+  def sustains **options
+    effect(effect: :sustains, **options)
+  end
+
+  def damages **options
+    effect(effect: :damages, **options)
   end
 
   def effect effect:, **options

@@ -1,18 +1,11 @@
 class Planet < ApplicationRecord
   belongs_to :player
   has_many :buildings do
-    include HasEffect
+    include BlueprintScopes
+    include EffectScopes
 
     def where_effect(effect)
       super.includes(:planet, player: {researches: :blueprint})
-    end
-
-    def [] name
-      includes(:blueprint).find_by(blueprints: {name: name})
-    end
-
-    def where_name name
-      includes(:blueprint).where(blueprints: {name: name})
     end
   end
   has_many :blueprints, through: :buildings

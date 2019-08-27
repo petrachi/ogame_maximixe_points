@@ -21,4 +21,16 @@ class Building < ApplicationRecord
       level: level + modifiers.fetch(:level, 0),
     )
   end
+
+  def sustains modifiers: {}
+    blueprint.sustains(
+      level: level + modifiers.fetch(:level, 0),
+    )
+  end
+
+  def damages modifiers: {}
+    blueprint.damages(
+      level: level + modifiers.fetch(:level, 0),
+    )
+  end
 end

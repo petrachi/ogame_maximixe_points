@@ -5,12 +5,29 @@ class BuilderAdvisor
     self.player = player
   end
 
+  def player_costs
+    player
+      .costs
+      .merge(
+        player.buildings.where_name(/.*_artillery/).costs,
+        &merge_proc(:-)
+      )
+      .merge(
+        ArtilleryCostsCalculator.artillery_mix(level: player.planets.count).costs,
+        &merge_proc(:+)
+      )
+  end
+
   def ideal_ratio
-    ratio_for player.costs
+    ratio_for player_costs
   end
 
   def actual_ratio
     ratio_for player.produces.slice(:metal, :cristal, :deuterium)
+  end
+
+  def differential_ratio
+    @differential_ratio ||= actual_ratio.merge(ideal_ratio, &merge_proc(:-))
   end
 
   def ratio_for ressources
@@ -19,10 +36,6 @@ class BuilderAdvisor
     ressources.each_with_object({}) do |(ressource, quantity), acc|
       acc[ressource] = quantity / total_ressources
     end
-  end
-
-  def differential_ratio
-    @differential_ratio ||= actual_ratio.merge(ideal_ratio, &merge_proc(:-))
   end
 
   def call

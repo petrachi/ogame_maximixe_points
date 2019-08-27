@@ -14,6 +14,10 @@ p = @player.advisor.differential_ratio
           = f.label :increment, "(#{build[:upto] - build[:buildings].first.level} needed)"
           = f.text_field :increment
           = f.submit "Build"
+        | or
+        = form_with url: increment_level_building_path(build[:buildings].first) do |f|
+          = hidden_field_tag :increment, build[:upto] - build[:buildings].first.level
+          = f.submit "Build #{build[:upto] - build[:buildings].first.level}"
       - when :building
         = form_with url: upto_level_building_path(build[:buildings].first) do |f|
           = hidden_field_tag :upto, build[:upto]

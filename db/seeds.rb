@@ -40,6 +40,7 @@ blueprints = Blueprint.create([
   {name: 'gauss_artillery'},
   {name: 'ion_artillery'},
   {name: 'plasma_artillery'},
+  {name: 'interplanetary_missile_artillery'},
 ])
 
 effects = Effect.create([
@@ -501,8 +502,20 @@ effects = Effect.create([
   },
   {
     blueprint: Blueprint['missile_artillery'],
+    effect: 'sustains',
+    ressource: 'hull',
+    quantity: '2000 * {level}'
+  },
+  {
+    blueprint: Blueprint['missile_artillery'],
     effect: 'costs',
     ressource: 'metal',
+    quantity: '2000 * {level}'
+  },
+  {
+    blueprint: Blueprint['laser_artillery'],
+    effect: 'sustains',
+    ressource: 'hull',
     quantity: '2000 * {level}'
   },
   {
@@ -519,6 +532,12 @@ effects = Effect.create([
   },
   {
     blueprint: Blueprint['heavy_laser_artillery'],
+    effect: 'sustains',
+    ressource: 'hull',
+    quantity: '8000 * {level}'
+  },
+  {
+    blueprint: Blueprint['heavy_laser_artillery'],
     effect: 'costs',
     ressource: 'metal',
     quantity: '6000 * {level}'
@@ -528,6 +547,12 @@ effects = Effect.create([
     effect: 'costs',
     ressource: 'cristal',
     quantity: '2000 * {level}'
+  },
+  {
+    blueprint: Blueprint['gauss_artillery'],
+    effect: 'sustains',
+    ressource: 'hull',
+    quantity: '35_000 * {level}'
   },
   {
     blueprint: Blueprint['gauss_artillery'],
@@ -549,6 +574,12 @@ effects = Effect.create([
   },
   {
     blueprint: Blueprint['ion_artillery'],
+    effect: 'sustains',
+    ressource: 'hull',
+    quantity: '8_000 * {level}'
+  },
+  {
+    blueprint: Blueprint['ion_artillery'],
     effect: 'costs',
     ressource: 'metal',
     quantity: '2000 * {level}'
@@ -558,6 +589,12 @@ effects = Effect.create([
     effect: 'costs',
     ressource: 'cristal',
     quantity: '6000 * {level}'
+  },
+  {
+    blueprint: Blueprint['plasma_artillery'],
+    effect: 'sustains',
+    ressource: 'hull',
+    quantity: '100_000 * {level}'
   },
   {
     blueprint: Blueprint['plasma_artillery'],
@@ -576,6 +613,30 @@ effects = Effect.create([
     effect: 'costs',
     ressource: 'deuterium',
     quantity: '30_000 * {level}'
+  },
+  {
+    blueprint: Blueprint['interplanetary_missile_artillery'],
+    effect: 'damages',
+    ressource: 'hull',
+    quantity: '12_000 * {level}'
+  },
+  {
+    blueprint: Blueprint['interplanetary_missile_artillery'],
+    effect: 'costs',
+    ressource: 'metal',
+    quantity: '12_500 * {level}'
+  },
+  {
+    blueprint: Blueprint['interplanetary_missile_artillery'],
+    effect: 'costs',
+    ressource: 'cristal',
+    quantity: '2500 * {level}'
+  },
+  {
+    blueprint: Blueprint['interplanetary_missile_artillery'],
+    effect: 'costs',
+    ressource: 'deuterium',
+    quantity: '10_000 * {level}'
   },
 ])
 
@@ -612,7 +673,7 @@ def create_research_for *levels, player:
   end
 end
 
-create_research_for 8, 10, 5, 8, 8, 6, 7, 0, 5, 10, 9, 0, 4, 6, 0, player: me
+create_research_for 10, 10, 5, 8, 8, 6, 7, 0, 5, 10, 9, 0, 6, 6, 7, player: me
 
 def create_buildings_for *levels, planet:
   %i[
@@ -633,12 +694,12 @@ def create_buildings_for *levels, planet:
   end
 end
 
-create_buildings_for 26, 20, 15, 24, 10, 9, 7, 4, 10, 6, 7, 1, planet: Planet['Artemis']
-create_buildings_for 25, 20, 15, 24, 8, 9, 7, 4, 10, 7, 0, 1, planet: Planet['Cassini']
-create_buildings_for 25, 20, 15, 24, 8, 9, 7, 5, 10, 8, 8, 1, planet: Planet['Europe']
-create_buildings_for 24, 20, 14, 23, 9, 8, 7, 4, 10, 8, 0, 1, planet: Planet['Eris']
-create_buildings_for 25, 21, 14, 24, 8, 9, 7, 4, 10, 8, 0, 1, planet: Planet['Ariane']
-create_buildings_for 20, 16, 0, 19, 0, 7, 6, 0, 10, 8, 0, 1, planet: Planet['Nyx']
+create_buildings_for 26, 22, 15, 24, 10, 9, 7, 4, 10, 8, 7, 1, planet: Planet['Artemis']
+create_buildings_for 25, 21, 15, 24, 9, 9, 7, 4, 10, 8, 0, 1, planet: Planet['Cassini']
+create_buildings_for 25, 22, 15, 24, 10, 9, 7, 5, 10, 8, 8, 1, planet: Planet['Europe']
+create_buildings_for 24, 22, 14, 23, 9, 9, 7, 4, 10, 8, 0, 1, planet: Planet['Eris']
+create_buildings_for 26, 22, 14, 24, 11, 9, 7, 4, 10, 8, 0, 1, planet: Planet['Ariane']
+create_buildings_for 21, 19, 11, 21, 4, 8, 7, 3, 10, 8, 0, 1, planet: Planet['Nyx']
 
 def create_defenses_for *levels, planet:
   %i[
@@ -653,9 +714,9 @@ def create_defenses_for *levels, planet:
   end
 end
 
-create_defenses_for 1200, 0, 20, 0, 50, 0, planet: Planet['Artemis']
-create_defenses_for 1550, 25, 30, 0, 50, 0, planet: Planet['Cassini']
-create_defenses_for 1080, 0, 100, 0, 60, 0, planet: Planet['Europe']
-create_defenses_for 1025, 50, 0, 0, 15, 0, planet: Planet['Eris']
-create_defenses_for 900, 100, 0, 0, 0, 0, planet: Planet['Ariane']
-create_defenses_for 0, 0, 25, 0, 0, 0, planet: Planet['Nyx']
+create_defenses_for 1400, 50, 20, 0, 50, 0, planet: Planet['Artemis']
+create_defenses_for 1550, 75, 30, 0, 50, 0, planet: Planet['Cassini']
+create_defenses_for 1080, 50, 100, 0, 60, 0, planet: Planet['Europe']
+create_defenses_for 1025, 100, 0, 0, 15, 0, planet: Planet['Eris']
+create_defenses_for 900, 100, 0, 1, 0, 1, planet: Planet['Ariane']
+create_defenses_for 218, 44, 25, 2, 4, 0, planet: Planet['Nyx']
