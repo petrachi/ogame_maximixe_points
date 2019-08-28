@@ -6,13 +6,6 @@
 
 ## improve
 
-- add the 3 armor/shield/weapon researchs
-  - todo: la production de ça est égale au cout des défenses * somme des trois recherches / 10
-  - (chaque recher augmente le cout/prodcution de 10%)
-- le calcul de la défense
-  - au lieu de calculer combien on doit construire par rapport à une temps fixe de production
-  - on pourrait calculer le coût en MIP pour détruire toute la défense, et construire autant de défense que le nombre de MIP équivalent à la moitié du stockage.
-  - comme ça on calcule la "rentabilité" d'une attaque
 - add hyperspace tech for shipping space
 
 - problem:

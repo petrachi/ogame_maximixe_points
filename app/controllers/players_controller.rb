@@ -10,12 +10,29 @@ class PlayersController < ApplicationController
 
   def show
     set_player
-    @player.planets.each(&:update_ressources_since_last_production!)
   end
 
   def advisor
     set_player
-    @player.planets.each(&:update_ressources_since_last_production!)
+    @advisor = Advisor.new(@player)
+  end
+
+  def building_advisor
+    set_player
+    @advisor = BuildingAdvisor.new(@player)
+    render :advisor
+  end
+
+  def research_advisor
+    set_player
+    @advisor = ResearchAdvisor.new(@player)
+    render :advisor
+  end
+
+  def artillery_advisor
+    set_player
+    @advisor = ArtilleryAdvisor.new(@player)
+    render :advisor
   end
 
   def set_player

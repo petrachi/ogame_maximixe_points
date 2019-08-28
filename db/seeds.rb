@@ -673,7 +673,7 @@ def create_research_for *levels, player:
   end
 end
 
-create_research_for 10, 10, 5, 8, 8, 6, 7, 0, 5, 10, 9, 0, 6, 6, 7, player: me
+create_research_for 10, 10, 5, 8, 8, 6, 7, 0, 5, 10, 9, 0, 7, 6, 7, player: me
 
 def create_buildings_for *levels, planet:
   %i[
@@ -695,11 +695,11 @@ def create_buildings_for *levels, planet:
 end
 
 create_buildings_for 26, 22, 15, 24, 10, 9, 7, 4, 10, 8, 7, 1, planet: Planet['Artemis']
-create_buildings_for 25, 21, 15, 24, 9, 9, 7, 4, 10, 8, 0, 1, planet: Planet['Cassini']
-create_buildings_for 25, 22, 15, 24, 10, 9, 7, 5, 10, 8, 8, 1, planet: Planet['Europe']
+create_buildings_for 25, 21, 16, 24, 10, 9, 7, 5, 10, 8, 0, 1, planet: Planet['Cassini']
+create_buildings_for 25, 22, 16, 24, 11, 9, 7, 5, 10, 8, 8, 1, planet: Planet['Europe']
 create_buildings_for 24, 22, 14, 23, 9, 9, 7, 4, 10, 8, 0, 1, planet: Planet['Eris']
-create_buildings_for 26, 22, 14, 24, 11, 9, 7, 4, 10, 8, 0, 1, planet: Planet['Ariane']
-create_buildings_for 21, 19, 11, 21, 4, 8, 7, 3, 10, 8, 0, 1, planet: Planet['Nyx']
+create_buildings_for 26, 22, 15, 24, 11, 9, 7, 4, 10, 8, 0, 1, planet: Planet['Ariane']
+create_buildings_for 22, 19, 12, 21, 6, 8, 7, 4, 10, 8, 0, 1, planet: Planet['Nyx']
 
 def create_defenses_for *levels, planet:
   %i[

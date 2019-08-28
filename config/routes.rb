@@ -19,6 +19,9 @@ Rails.application.routes.draw do
   resources :players do
     member do
       get 'advisor'
+      get 'building_advisor'
+      get 'research_advisor'
+      get 'artillery_advisor'
     end
   end
   resources :researches do

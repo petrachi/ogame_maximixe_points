@@ -1,4 +1,4 @@
-class BuilderAdvisor
+class Advisor
   attr_accessor :player
 
   def initialize player
@@ -38,17 +38,17 @@ class BuilderAdvisor
     end
   end
 
-  def call
-
-  end
-
-  def build_list
+  def calculators
     [
       ArtilleryCostsCalculator,
       ProductionCostsCalculator,
       ResearchCostsCalculator,
       StorageCostsCalculator,
     ]
+  end
+
+  def build_list
+    calculators
       .inject([]) do |acc, calculator|
         acc + calculator.new(player).call
       end
@@ -58,13 +58,11 @@ class BuilderAdvisor
       .each(&method(:add_ratio_index))
       .delete_if{ |build| build[:ratio_index] == 1.0/0 }
       .sort_by{ |build| build[:ratio_index] }
-      .uniq do |build|
-        if build[:type] == :artillery
-          [build[:planet], build[:type], build[:ressource]]
-        else
-          [build[:planet], build[:type]]
-        end
-      end
+  end
+
+  def call
+    build_list
+      .uniq{ |build| [build[:planet], build[:type]] }
   end
 
   def add_costs_for_one build
@@ -74,10 +72,13 @@ class BuilderAdvisor
     end
   end
 
+  def total_produces
+    @total_produces ||= player.produces
+  end
+
   def add_time_for_one build
-    produces = player.produces
     build[:time_for_one] = build[:costs_for_one].each_with_object({}) do |(ressource, cost), acc|
-      acc[ressource] = cost / produces[ressource] * 3600
+      acc[ressource] = cost / total_produces[ressource] * 3600
       acc
     end
   end
@@ -89,7 +90,7 @@ class BuilderAdvisor
   def add_ratio_index build
     ratio = differential_ratio[build[:ressource]]
     build[:ratio_index] = if ratio
-      if ratio > 0.01
+      if ratio >= 0
         1.0/0
       else
         build[:time_index]

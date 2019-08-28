@@ -1,12 +1,17 @@
 h3 = link_to @player.name, player_path(@player)
 
-p = @player.advisor.differential_ratio
+p = @advisor.differential_ratio
 
-- @player.advisor.build_list.each do |build|
+- @advisor.call.each do |build|
   ul
     li = build[:planet].name
     li = build[:buildings].map{|building| building.blueprint.name}
+    li = build[:buildings].map(&:level)
     li = build[:ratio_index]
+    - costs = build[:buildings].first.costs(modifiers: {level: 1})
+    li M-#{ number_with_delimiter(costs[:metal].to_i, delimiter: ".") }
+    li C-#{ number_with_delimiter(costs[:cristal].to_i, delimiter: ".") }
+    li D-#{ number_with_delimiter(costs[:deuterium].to_i, delimiter: ".") }
     li 
       - case build[:type]
       - when :artillery

@@ -1,6 +1,9 @@
 h3 = @player.name
 
 p = link_to "Advisor", advisor_player_path(@player)
+p = link_to "Building Advisor", building_advisor_player_path(@player)
+p = link_to "Research Advisor", research_advisor_player_path(@player)
+p = link_to "Artillery Advisor", artillery_advisor_player_path(@player)
       
 .ressources
   - @player.ressources.each do |(ressource, values)|

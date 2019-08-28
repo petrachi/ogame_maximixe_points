@@ -31,7 +31,6 @@ class ArtilleryCostsCalculator::ByPlanet < BaseCostsCalculator::ByPlanet
           upto: building.level,
         }
       end
-      .shuffle
   end
 
   def produces(building)
