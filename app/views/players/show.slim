@@ -1,45 +1,93 @@
-h3 = @player.name
-
-p = link_to "Advisor", advisor_player_path(@player)
-p = link_to "Building Advisor", building_advisor_player_path(@player)
-p = link_to "Research Advisor", research_advisor_player_path(@player)
-p = link_to "Artillery Advisor", artillery_advisor_player_path(@player)
-      
-.ressources
-  - @player.ressources.each do |(ressource, values)|
-    div class=ressource
-      span.holds = number_with_delimiter values[:holds].to_i
-      span.produces = number_with_delimiter values[:produces].to_i
-      span.stocks = number_with_delimiter values[:stocks].to_i
-
-- @player.planets.sort_by(&:id).each do |planet|
-  h3 = planet.name
-  - planet.ressources.each do |(ressource, values)|
-    div class=ressource
-      span.holds = number_with_delimiter values[:holds].to_i
-      span.produces = number_with_delimiter values[:produces].to_i
-      span.stocks = number_with_delimiter values[:stocks].to_i
-  div class='energy'
-    span.produces = number_with_delimiter planet.produces[:energy].to_i
+#player
+  #ships
+    #ship-1 = link_to players_path do
+      = render partial: 'ships/model-B'
+    
+    #ship-2 = link_to edit_player_path(player) do
+      = render partial: 'ships/model-C'
   
-  = form_with model: planet do |f|
-    = f.text_field :metal
-    = f.text_field :cristal
-    = f.text_field :deuterium
-    = f.submit "Update ressources"
+  h1 
+    span = player.name
+    
+  = render partial: 'production_ratio', locals: {player: player, advisor: player.advisor}
+  = render partial: 'best_choices', locals: {build: player.advisor.best_build, research: player.advisor.best_reaserch}
   
-  table
-    tr
-      - planet.buildings.sort_by(&:id).each do |building|
-        td
-          p = building.blueprint.name
-          p = building.level
-          = form_with url: increment_level_building_path(building) do |f|
-            = hidden_field_tag :increment, 1
-            = f.submit "Update to level #{ building.level + 1 }"
+  ul#planets-list = render player.planets.order(:id), advisor: player.advisor
+    
+  #new-planet
+    h3 Coloniser une nouvelle planète
+    
+    = form_with model: player.planets.build, html: {autocomplete: "off"} do |f|
+      = f.hidden_field :player_id
       
-= form_with model: @player.planets.build do |f|
-  = f.hidden_field :player_id
-  = f.text_field :name
-  = f.number_field :temperature
-  = f.submit "Create"
+      .floating-input
+        = f.text_field :name, placeholder: "Nom de la planète (ex: PT1)"
+        = f.label :name, "Nom"
+      
+      .floating-input
+        = f.number_field :temperature, placeholder: "Température maximale sur la planète (ex: 81)"
+        = f.label :temperature, "Température"
+        
+      .floating-input
+        = f.number_field :size, placeholder: "Nombre de cases de la planète (ex: 193)"
+        = f.label :size, "Taille"
+        
+      = f.submit "Créez une nouvelle planète"
+
+/ 
+/ h3 = @player.name
+/ 
+/ p = link_to "Advisor", advisor_player_path(@player)
+/ p = link_to "Building Advisor", building_advisor_player_path(@player)
+/ p = link_to "Research Advisor", research_advisor_player_path(@player)
+/ p = link_to "Artillery Advisor", artillery_advisor_player_path(@player)
+/ 
+/ .ressources
+/   - @player.ressources.each do |(ressource, values)|
+/     div class=ressource
+/       span.holds = number_with_delimiter values[:holds].to_i
+/       span.produces = number_with_delimiter values[:produces].to_i
+/       span.stocks = number_with_delimiter values[:stocks].to_i
+/ 
+/ - @player.planets.sort_by(&:id).each do |planet|
+/   h3 = planet.name
+/   - planet.ressources.each do |(ressource, values)|
+/     div class=ressource
+/       span.holds = number_with_delimiter values[:holds].to_i
+/       span.produces = number_with_delimiter values[:produces].to_i
+/       span.stocks = number_with_delimiter values[:stocks].to_i
+/   div class='energy'
+/     span.produces = number_with_delimiter planet.produces[:energy].to_i
+/ 
+/   = form_with model: planet do |f|
+/     = f.text_field :metal
+/     = f.text_field :cristal
+/     = f.text_field :deuterium
+/     = f.submit "Update ressources"
+/ 
+/   table
+/     tr
+/       - planet.buildings.sort_by(&:id).each do |building|
+/         td
+/           p = building.blueprint.name
+/           p = building.level
+/           = form_with url: increment_level_building_path(building) do |f|
+/             = hidden_field_tag :increment, 1
+/             = f.submit "Update to level #{ building.level + 1 }"
+/ 
+/   table
+/     tr
+/       - @player.researches.sort_by(&:id).each do |research|
+/         td
+/           p = research.blueprint.name
+/           p = research.level
+/           = form_with url: increment_level_research_path(research) do |f|
+/             = hidden_field_tag :increment, 1
+/             = hidden_field_tag :planet_id, planet.id
+/             = f.submit "Update to level #{ research.level + 1 }"
+/ 
+/ = form_with model: @player.planets.build do |f|
+/   = f.hidden_field :player_id
+/   = f.text_field :name
+/   = f.number_field :temperature
+/   = f.submit "Create"

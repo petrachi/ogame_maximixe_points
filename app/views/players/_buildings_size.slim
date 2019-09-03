@@ -1,0 +1,13 @@
+.buildings-size
+  - metal_size = planet.buildings.where_name(['metal_mine', 'metal_storage']).map(&:level).inject(0, &:+) / planet.size.to_f
+  - cristal_size = planet.buildings.where_name(['cristal_mine', 'cristal_storage']).map(&:level).inject(0, &:+) / planet.size.to_f
+  - deuterium_size = planet.buildings.where_name(['deuterium_mine', 'deuterium_storage']).map(&:level).inject(0, &:+) / planet.size.to_f
+  - energy_size = planet.buildings.where_name(['solar_plant', 'fusion_plant']).map(&:level).inject(0, &:+) / planet.size.to_f
+  - factory_size = planet.buildings.where_name(/^.*_factory$/).map(&:level).inject(0, &:+) / planet.size.to_f
+  - max_size = [metal_size, cristal_size, deuterium_size, energy_size, factory_size].max * 1.5
+  
+  .metal-mine[style="width: #{ 100 * metal_size }%; border-bottom-width: #{ metal_size / max_size }em"]
+  .cristal-mine[style="width: #{ 100 * cristal_size }%; border-bottom-width: #{ cristal_size / max_size }em"]
+  .deuterium-mine[style="width: #{ 100 * deuterium_size }%; border-bottom-width: #{ deuterium_size / max_size }em"]
+  .energy-plants[style="width: #{ 100 * energy_size }%; border-bottom-width: #{ energy_size / max_size }em"]
+  .factories[style="width: #{ 100 * factory_size }%; border-bottom-width: #{ factory_size / max_size }em"]

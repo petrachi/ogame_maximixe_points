@@ -1,0 +1,84 @@
+#edit-player
+  min-height: 100%
+  display: flex
+  flex-direction: column
+  justify-content: center
+
+  text-align: center
+
+  #ships
+    svg
+      width: 5.5em
+      height: auto
+
+      path
+        fill: $white
+        fill: #abb2b8
+
+    @keyframes animShip
+      from
+        transform: translateX(0)
+      to
+        transform: translateY(2em)
+
+    & > *
+      display: inline-block
+      position: relative
+      margin: 0 2em
+      animation: animShip 3s ease-in-out alternate infinite
+
+  input[name="player[name]"]
+    &:focus,
+    &:not(:placeholder-shown)
+      transform: translateX(3em)
+      width: calc(100% - 3em)
+
+  input[name="ion_tech"]
+    &:focus,
+    &:not(:placeholder-shown)
+      transform: translateX(4em)
+      width: calc(100% - 4em)
+
+  input[name="laser_tech"],
+  input[name="spy_tech"],
+  input[name="shield_tech"],
+  input[name="armor_tech"]
+    &:focus,
+    &:not(:placeholder-shown)
+      transform: translateX(5em)
+      width: calc(100% - 5em)
+
+  input[name="energy_tech"],
+  input[name="plasma_tech"],
+  input[name="weapon_tech"]
+    &:focus,
+    &:not(:placeholder-shown)
+      transform: translateX(6em)
+      width: calc(100% - 6em)
+
+  input[name="computer_tech"]
+    &:focus,
+    &:not(:placeholder-shown)
+      transform: translateX(7em)
+      width: calc(100% - 7em)
+
+  input[name="hyperspace_tech"],
+  input[name="astrophysics_tech"],
+  input[name="intergalactic_tech"]
+    &:focus,
+    &:not(:placeholder-shown)
+      transform: translateX(8em)
+      width: calc(100% - 8em)
+
+  input[name="impulsion_engine_tech"]
+    &:focus,
+    &:not(:placeholder-shown)
+      transform: translateX(10em)
+      width: calc(100% - 10em)
+
+  input[name="combustion_engine_tech"],
+  input[name="hyperspace_engine_tech"]
+    &:focus,
+    &:not(:placeholder-shown)
+      transform: translateX(11em)
+      width: calc(100% - 11em)

@@ -1,0 +1,131 @@
+*,
+*::before,
+*::after
+  box-sizing: border-box
+
+html,
+body
+  height: 100%
+
+html
+  font: 1em "Helvetica Neue","Helvetica","Arial", sans-serif
+  font-weight: 200
+
+body
+  margin: 0
+  height: 100%
+
+  color: $white
+
+#content
+  padding: .5em
+  height: 100%
+  overflow: scroll
+
+h1
+  font-family: 'lato', sans-serif
+  font-weight: 300
+  font-size: 3em
+  letter-spacing: .25em
+  margin-bottom: .5em
+  text-transform: uppercase
+
+  span
+    background: -webkit-linear-gradient($white, #38495a)
+    -webkit-background-clip: text
+    -webkit-text-fill-color: transparent
+
+h3
+  font-weight: 200
+  font-size: 1.5em
+  margin-bottom: .5em
+
+h4
+  font-weight: 200
+  font-size: 1.5em
+  margin-bottom: .5em
+
+ul
+  margin: 0
+  padding: 0
+  list-style: none
+
+hr
+  border: 1px solid rgba($black, .1)
+  border-radius: 2px
+
+a
+  &,
+  &:hover,
+  &:visited,
+  &:active,
+  &:focus
+    color: inherit
+
+.btn
+  margin: .5em 0
+  padding: .75em
+  font-weight: 200
+  border: 1px solid $white
+  border-radius: 2px
+  cursor: pointer
+  display: inline-block
+  transition: all ease .4s
+  letter-spacing: .25px
+  text-decoration: inherit
+  color: $white
+  background-color: transparent
+  font-family: inherit
+  font-size: inherit
+
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+  &:hover
+    color: $black
+    background-color: $white
+
+.floating-input
+  position: relative
+
+  input
+    display: block
+    margin: 0
+    padding: .75em
+    margin: .5em 0
+    color: $black
+    font-family: inherit
+    font-size: inherit
+    width: 100%
+    font-family: inherit
+    border: none
+    border-radius: 2px
+    transition: all .3s
+    background-color: $white
+    transform: translateX(0)
+
+    &::placeholder
+      color: #38495a
+
+    &:focus,
+    &:not(:placeholder-shown)
+      outline: none
+      transform: translateX(0em)
+      width: calc(100% - 0em)
+
+      & + label
+        opacity: 1
+
+  label
+    display: block
+    position: absolute
+    top: 0
+    left: 0
+    color: $white
+    opacity: 0
+    transition: opacity .3s ease
+    padding: .75em 0
+
+input[type=submit]
+  @extend .btn

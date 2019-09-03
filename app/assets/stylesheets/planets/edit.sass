@@ -1,0 +1,84 @@
+#edit-planet
+  min-height: 100%
+  display: flex
+  flex-direction: column
+  justify-content: center
+
+  text-align: center
+
+  #ships
+    svg
+      width: 5.5em
+      height: auto
+
+      path
+        fill: $white
+        fill: #abb2b8
+
+    @keyframes animShip
+      from
+        transform: translateX(0)
+      to
+        transform: translateY(2em)
+
+    & > *
+      display: inline-block
+      position: relative
+      margin: 0 2em
+      animation: animShip 3s ease-in-out alternate infinite
+
+    #ship-1
+      left: -8em
+      animation-duration: 1.75s
+      animation-delay: .25s
+
+  input[name="planet[name]"],
+  input[name="planet[size]"]
+    &:focus,
+    &:not(:placeholder-shown)
+      transform: translateX(3em)
+      width: calc(100% - 3em)
+
+  input[name="ion_artillery"]
+    &:focus,
+    &:not(:placeholder-shown)
+      transform: translateX(5em)
+      width: calc(100% - 5em)
+
+  input[name="planet[temperature]"],
+  input[name="metal_mine"],
+  input[name="cristal_mine"],
+  input[name="solar_plant"],
+  input[name="fusion_plant"],
+  input[name="laser_artillery"]
+    &:focus,
+    &:not(:placeholder-shown)
+      transform: translateX(6em)
+      width: calc(100% - 6em)
+
+  input[name="metal_storage"],
+  input[name="cristal_storage"],
+  input[name="robots_factory"],
+  input[name="ships_factory"],
+  input[name="nanite_factory"],
+  input[name="missile_artillery"],
+  input[name="gauss_artillery"],
+  input[name="plasma_artillery"]
+    &:focus,
+    &:not(:placeholder-shown)
+      transform: translateX(7em)
+      width: calc(100% - 7em)
+
+  input[name="deuterium_mine"],
+  input[name="deuterium_storage"],
+  input[name="research_factory"]
+    &:focus,
+    &:not(:placeholder-shown)
+      transform: translateX(8em)
+      width: calc(100% - 8em)
+
+  input[name="heavy_laser_artillery"]
+    &:focus,
+    &:not(:placeholder-shown)
+      transform: translateX(9em)
+      width: calc(100% - 9em)

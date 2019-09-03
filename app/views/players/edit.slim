@@ -1,0 +1,24 @@
+#edit-player
+  #ships
+    #ship-1 = link_to player do
+      = render partial: 'ships/model-C'
+  
+  h1 
+    span = player.name
+    
+  = form_with model: player do |f|
+    .floating-input
+      = f.text_field :name, placeholder: "Nom du joueur (ex: Petrochou)"
+      = f.label :name, "Nom"
+      
+    hr
+    
+    - player.researches.order(:id).includes(:blueprint).each do |research|
+      .floating-input
+        - if research.level.zero?
+          = number_field_tag research.blueprint.name, nil, placeholder: "Niveau de la recherche #{ research.blueprint.name.humanize } (ex: 5)"
+        - else
+          = number_field_tag research.blueprint.name, research.level, placeholder: "Niveau de la recherche #{ research.blueprint.name.humanize } (ex: 5)"
+        = f.label research.blueprint.name, research.blueprint.name.humanize
+    
+    = f.submit "Mettre à jour"

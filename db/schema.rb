@@ -44,10 +44,11 @@ ActiveRecord::Schema.define(version: 20190824194957) do
   create_table "planets", force: :cascade do |t|
     t.string "name"
     t.integer "temperature"
+    t.integer "size"
     t.integer "metal", default: 0
     t.integer "cristal", default: 0
     t.integer "deuterium", default: 0
-    t.datetime "last_production", default: "2019-08-24 20:06:56"
+    t.datetime "last_production", default: "2019-09-02 20:01:05"
     t.bigint "player_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

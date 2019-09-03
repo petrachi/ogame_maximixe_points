@@ -1,6 +1,6 @@
 class ArtilleryCostsCalculator::ByPlanet < BaseCostsCalculator::ByPlanet
   def artillery_mix_needed
-    mip_costs = Blueprint['interplanetary_missile_artillery'].costs(level: 1).values.inject(0, &:+)
+    mip_costs = Blueprint['interplanetary_rocket'].costs(level: 1).values.inject(0, &:+)
     produces = planet
       .produces
       .slice(:metal, :cristal, :deuterium)
@@ -11,7 +11,7 @@ class ArtilleryCostsCalculator::ByPlanet < BaseCostsCalculator::ByPlanet
       .inject(0, &:+)
 
     mip_needed = produces / mip_costs
-    mip_damages = Blueprint['interplanetary_missile_artillery'].damages(level: mip_needed)[:hull]
+    mip_damages = Blueprint['interplanetary_rocket'].damages(level: mip_needed)[:hull]
     artillery_mix_sustains = ArtilleryCostsCalculator.artillery_mix.sustains[:hull]
 
     mip_damages / artillery_mix_sustains

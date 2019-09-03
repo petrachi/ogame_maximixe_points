@@ -33,7 +33,7 @@ class Advisor
   def ratio_for ressources
     total_ressources = ressources.values.inject(0, &:+)
 
-    ressources.each_with_object({}) do |(ressource, quantity), acc|
+    ressources.each_with_object(Hash.new(0)) do |(ressource, quantity), acc|
       acc[ressource] = quantity / total_ressources
     end
   end
@@ -48,7 +48,7 @@ class Advisor
   end
 
   def build_list
-    calculators
+    @build_list ||= calculators
       .inject([]) do |acc, calculator|
         acc + calculator.new(player).call
       end
@@ -56,13 +56,31 @@ class Advisor
       .each(&method(:add_time_for_one))
       .each(&method(:add_time_index))
       .each(&method(:add_ratio_index))
-      .delete_if{ |build| build[:ratio_index] == 1.0/0 }
+      .tap do |temp_build_list|
+        min_index = temp_build_list
+          .map{ |build| build[:time_index] }
+          .delete_if{ |index| index == 0 || index.nan? }
+          .min
+
+        temp_build_list.each do |build|
+          add_percentage_index build, min_index: min_index
+        end
+      end
+      .delete_if{ |build| build[:time_index] == 1.0/0 }
       .sort_by{ |build| build[:ratio_index] }
+  end
+
+  def best_build
+    build_list.find{ |build| build[:type] == :building }
+  end
+
+  def best_reaserch
+    build_list.find{ |build| build[:type] == :research }
   end
 
   def call
     build_list
-      .uniq{ |build| [build[:planet], build[:type]] }
+      # .uniq{ |build| [build[:planet], build[:type]] }
   end
 
   def add_costs_for_one build
@@ -98,6 +116,10 @@ class Advisor
     else
       build[:time_index]
     end
+  end
+
+  def add_percentage_index build, min_index:
+    build[:percentage_index] = 1 / (build[:time_index] / min_index)
   end
 
   # def costs_status build, acc

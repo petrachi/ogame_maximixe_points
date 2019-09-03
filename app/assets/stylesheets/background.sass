@@ -1,0 +1,76 @@
+@function multiple-box-shadow ($n)
+  $x: random(100)
+  $y: random(100)
+  $value: '#{$x}vw #{$y}vh #FFF, #{$x}vw #{$y + 100}vh #FFF'
+  @for $i from 2 through $n
+    $x: random(100)
+    $y: random(100)
+    $value: '#{$value}, #{$x}vw #{$y}vh #FFF, #{$x}vw #{$y + 100}vh #FFF'
+
+  @return unquote($value)
+
+$shadows-small:  multiple-box-shadow(48)
+$shadows-medium: multiple-box-shadow(16)
+$shadows-big:    multiple-box-shadow(8)
+
+html
+  background: radial-gradient(ellipse at center, $black 0%, $less-black 100%) no-repeat
+  overflow: hidden
+
+#content
+  position: relative
+
+#stars
+  width: 1px
+  height: 1px
+  background: transparent
+  box-shadow: $shadows-small
+  animation: animStar 45s linear infinite
+
+  &:after
+    content: " "
+    position: absolute
+    top: 2000px
+    width: 1px
+    height: 1px
+    background: transparent
+    box-shadow: $shadows-small
+
+#stars2
+  width: 2px
+  height: 2px
+  background: transparent
+  box-shadow: $shadows-medium
+  animation: animStar 30s linear infinite
+
+  &:after
+    content: " "
+    position: absolute
+    top: 2000px
+    width: 2px
+    height: 2px
+    background: transparent
+    box-shadow: $shadows-medium
+
+#stars3
+  width: 3px
+  height: 3px
+  background: transparent
+  box-shadow: $shadows-big
+  animation: animStar 15s linear infinite
+
+  &:after
+    content: " "
+    position: absolute
+    top: 2000px
+    width: 3px
+    height: 3px
+    background: transparent
+    box-shadow: $shadows-big
+
+
+@keyframes animStar
+  from
+    transform: translateY(-100vh)
+  to
+    transform: translateY(0px)

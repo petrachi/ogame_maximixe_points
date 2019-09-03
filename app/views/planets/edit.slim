@@ -1,0 +1,32 @@
+#edit-planet
+  #ships
+    #ship-1 = link_to player_path(planet.player) do
+      = render partial: 'ships/model-C'
+  
+  h1 
+    span = planet.name
+    
+  = form_with model: planet do |f|
+    .floating-input
+      = f.text_field :name, placeholder: "Nom de la planète (ex: PT1)"
+      = f.label :name, "Nom"
+      
+    .floating-input
+      = f.number_field :temperature, placeholder: "Température maximale sur la planète (ex: 81)"
+      = f.label :temperature, "Température"
+    
+    .floating-input
+      = f.number_field :size, placeholder: "Nombre de cases de la planète (ex: 193)"
+      = f.label :size, "Taille"
+      
+    hr
+    
+    - planet.buildings.order(:id).includes(:blueprint).each do |building|
+      .floating-input
+        - if building.level.zero?
+          = number_field_tag building.blueprint.name, nil, placeholder: "Niveau du batiment #{ building.blueprint.name.humanize } (ex: 12)"
+        - else
+          = number_field_tag building.blueprint.name, building.level, placeholder: "Niveau du batiment #{ building.blueprint.name.humanize } (ex: 12)"
+        = f.label building.blueprint.name, building.blueprint.name.humanize
+    
+    = f.submit "Mettre à jour"

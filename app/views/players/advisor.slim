@@ -7,7 +7,9 @@ p = @advisor.differential_ratio
     li = build[:planet].name
     li = build[:buildings].map{|building| building.blueprint.name}
     li = build[:buildings].map(&:level)
+    li = build[:time_index]
     li = build[:ratio_index]
+    li = build[:percentage_index]
     - costs = build[:buildings].first.costs(modifiers: {level: 1})
     li M-#{ number_with_delimiter(costs[:metal].to_i, delimiter: ".") }
     li C-#{ number_with_delimiter(costs[:cristal].to_i, delimiter: ".") }

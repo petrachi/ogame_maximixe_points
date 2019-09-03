@@ -1,0 +1,16 @@
+#production-ratio
+  - p advisor.ideal_ratio
+  - p advisor.actual_ratio
+
+  - metal_percent = [advisor.ideal_ratio[:metal], advisor.actual_ratio[:metal]].min
+  - cristal_percent = [advisor.ideal_ratio[:cristal], advisor.actual_ratio[:cristal]].min
+  - deuterium_percent = [advisor.ideal_ratio[:deuterium], advisor.actual_ratio[:deuterium]].min
+  - total_produces = player.produces.slice(:metal, :cristal, :deuterium).values.inject(0, &:+)
+  
+  #metal[style="width: #{metal_percent * 100}%"] = sprintf("%+d", advisor.differential_ratio[:metal] * total_produces)
+  #metal-difference[style="width: #{advisor.differential_ratio[:metal].abs * 100}%"]
+
+  #cristal[style="width: #{cristal_percent * 100}%"] = sprintf("%+d", advisor.differential_ratio[:cristal] * total_produces)
+  #cristal-difference[style="width: #{advisor.differential_ratio[:cristal].abs * 100}%"]
+  
+  #deuterium[style="width: #{deuterium_percent * 100}%"] = sprintf("%+d", advisor.differential_ratio[:deuterium] * total_produces)

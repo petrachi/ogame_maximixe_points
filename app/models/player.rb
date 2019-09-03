@@ -14,7 +14,7 @@ class Player < ApplicationRecord
   end
 
   def advisor
-    BuilderAdvisor.new(self)
+    @advisor ||= Advisor.new(self)
   end
 
   def costs **options

@@ -1,7 +1,7 @@
 class StorageCostsCalculator::ByRessource < BaseCostsCalculator::ByRessource
   Dir[Rails.root.join("app/costs_calculators/storage_costs_calculator/by_ressource/*.rb")].each { |f| require_dependency f }
 
-  STORAGE_WANTED_TIME = 30.0
+  STORAGE_WANTED_TIME = 12.0
 
   def blueprint_name
     "#{ ressource }_storage"

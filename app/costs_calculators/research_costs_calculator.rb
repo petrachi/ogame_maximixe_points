@@ -3,13 +3,18 @@ class ResearchCostsCalculator < BaseCostsCalculator
     .each { |f| require_dependency f }
 
   def ressources
+    # %i[
+    #   energy
+    #   plasma
+    #   astrophysics
+    #   armor
+    #   shield
+    #   weapon
+    # ]
     %i[
       energy
       plasma
       astrophysics
-      armor
-      shield
-      weapon
     ]
   end
 

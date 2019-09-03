@@ -3,6 +3,7 @@ class CreatePlanets < ActiveRecord::Migration[5.1]
     create_table :planets do |t|
       t.string :name
       t.integer :temperature
+      t.integer :size
 
       t.integer :metal, default: 0
       t.integer :cristal, default: 0

@@ -1,0 +1,20 @@
+#best-choices
+  #best-build
+    h3 = build[:planet].name
+    p = build[:buildings].first.blueprint.name.humanize
+    .index
+      .bar[style="width: #{ build[:percentage_index] * 100 }%"]
+    = form_with url: upto_level_building_path(build[:buildings].first) do |f|
+      = hidden_field_tag :upto, build[:upto]
+      = f.submit "Construire le niveau #{ build[:upto] }"
+    
+  hr
+  #best-research
+    h3 = research[:planet].name
+    p = research[:buildings].first.blueprint.name.humanize
+    .index
+      .bar[style="width: #{ research[:percentage_index] * 100 }%"]
+    = form_with url: upto_level_research_path(research[:buildings].first) do |f|
+      = hidden_field_tag :upto, research[:upto]
+      = hidden_field_tag :planet_id, research[:planet].id
+      = f.submit "Rechercher le niveau #{ research[:upto] }"

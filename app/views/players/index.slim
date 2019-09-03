@@ -1,6 +1,20 @@
-- @players.each do |player|
-  = link_to player, player_path(player)
+#players
+  #ships
+    #ship-1 = render partial: 'ships/model-C'
+    #ship-2 = render partial: 'ships/model-C'
+    #ship-3 = render partial: 'ships/model-B'
 
-= form_with model: Player.new do |f|
-  = f.text_field :name
-  = f.submit "Create"
+  h1 
+    span Ogame<br>Advisor
+   
+  ul#players-list = render players 
+  
+  #new-player
+    h3 Ou
+    
+    = form_with model: Player.new, html: {autocomplete: "off"} do |f|
+      .floating-input
+        = f.text_field :name, placeholder: "Nom du joueur (ex: Petrochou)"
+        = f.label :name, "Nom"
+      
+      = f.submit "Créez un nouveau joueur"

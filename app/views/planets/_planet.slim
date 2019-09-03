@@ -1,0 +1,6 @@
+.planet
+  h3 = planet.name
+  p = link_to 'Éditer', edit_planet_path(planet)
+  
+  = render partial: "buildings_size", locals: {planet: planet}
+  = render partial: "builds", locals: {planet: planet, advisor: advisor}

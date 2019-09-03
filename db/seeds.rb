@@ -40,7 +40,7 @@ blueprints = Blueprint.create([
   {name: 'gauss_artillery'},
   {name: 'ion_artillery'},
   {name: 'plasma_artillery'},
-  {name: 'interplanetary_missile_artillery'},
+  {name: 'interplanetary_rocket'},
 ])
 
 effects = Effect.create([
@@ -96,7 +96,7 @@ effects = Effect.create([
     blueprint: Blueprint['deuterium_mine'],
     effect: 'produces',
     ressource: 'deuterium',
-    quantity: '(70 * {level} * 1.1**{level}) * (-0.004 * {temperature} + 1.44) * (1 + {plasma_tech} * 0.33 / 100.0)'
+    quantity: '0.1 + (70 * {level} * 1.1**{level}) * (-0.004 * {temperature} + 1.44) * (1 + {plasma_tech} * 0.33 / 100.0)'
   },
   {
     blueprint: Blueprint['deuterium_mine'],
@@ -615,108 +615,143 @@ effects = Effect.create([
     quantity: '30_000 * {level}'
   },
   {
-    blueprint: Blueprint['interplanetary_missile_artillery'],
+    blueprint: Blueprint['interplanetary_rocket'],
     effect: 'damages',
     ressource: 'hull',
     quantity: '12_000 * {level}'
   },
   {
-    blueprint: Blueprint['interplanetary_missile_artillery'],
+    blueprint: Blueprint['interplanetary_rocket'],
     effect: 'costs',
     ressource: 'metal',
     quantity: '12_500 * {level}'
   },
   {
-    blueprint: Blueprint['interplanetary_missile_artillery'],
+    blueprint: Blueprint['interplanetary_rocket'],
     effect: 'costs',
     ressource: 'cristal',
     quantity: '2500 * {level}'
   },
   {
-    blueprint: Blueprint['interplanetary_missile_artillery'],
+    blueprint: Blueprint['interplanetary_rocket'],
     effect: 'costs',
     ressource: 'deuterium',
     quantity: '10_000 * {level}'
   },
 ])
 
-me = Player.create(name: 'yoyo rapido')
+require "#{Rails.root}/db/seeds/fixtures.rb"
 
-my_planets = Planet.create([
-  {player: me, name: 'Artemis', temperature: 81},
-  {player: me, name: 'Cassini', temperature: 53},
-  {player: me, name: 'Europe', temperature: 67},
-  {player: me, name: 'Eris', temperature: 75},
-  {player: me, name: 'Ariane', temperature: 28},
-  {player: me, name: 'Nyx', temperature: 28},
-])
-
-def create_research_for *levels, player:
-  %i[
-    energy_tech
-    laser_tech
-    ion_tech
-    hyperspace_tech
-    plasma_tech
-    combustion_engine_tech
-    impulsion_engine_tech
-    hyperspace_engine_tech
-    spy_tech
-    computer_tech
-    astrophysics_tech
-    intergalactic_tech
-    weapon_tech
-    shield_tech
-    armor_tech
-  ].each_with_index do |name, index|
-    Research.create(player: player, blueprint: Blueprint[name], level: levels[index])
-  end
-end
-
-create_research_for 10, 10, 5, 8, 8, 6, 7, 0, 5, 10, 9, 0, 7, 6, 7, player: me
-
-def create_buildings_for *levels, planet:
-  %i[
-    metal_mine
-    cristal_mine
-    deuterium_mine
-    solar_plant
-    fusion_plant
-    metal_storage
-    cristal_storage
-    deuterium_storage
-    robots_factory
-    ships_factory
-    research_factory
-    nanite_factory
-  ].each_with_index do |name, index|
-    Building.create(planet: planet, blueprint: Blueprint[name], level: levels[index])
-  end
-end
-
-create_buildings_for 26, 22, 15, 24, 10, 9, 7, 4, 10, 8, 7, 1, planet: Planet['Artemis']
-create_buildings_for 25, 21, 16, 24, 10, 9, 7, 5, 10, 8, 0, 1, planet: Planet['Cassini']
-create_buildings_for 25, 22, 16, 24, 11, 9, 7, 5, 10, 8, 8, 1, planet: Planet['Europe']
-create_buildings_for 24, 22, 14, 23, 9, 9, 7, 4, 10, 8, 0, 1, planet: Planet['Eris']
-create_buildings_for 26, 22, 15, 24, 11, 9, 7, 4, 10, 8, 0, 1, planet: Planet['Ariane']
-create_buildings_for 22, 19, 12, 21, 6, 8, 7, 4, 10, 8, 0, 1, planet: Planet['Nyx']
-
-def create_defenses_for *levels, planet:
-  %i[
-    missile_artillery
-    laser_artillery
-    heavy_laser_artillery
-    gauss_artillery
-    ion_artillery
-    plasma_artillery
-  ].each_with_index do |name, index|
-    Building.create(planet: planet, blueprint: Blueprint[name], level: levels[index])
-  end
-end
-
-create_defenses_for 1400, 50, 20, 0, 50, 0, planet: Planet['Artemis']
-create_defenses_for 1550, 75, 30, 0, 50, 0, planet: Planet['Cassini']
-create_defenses_for 1080, 50, 100, 0, 60, 0, planet: Planet['Europe']
-create_defenses_for 1025, 100, 0, 0, 15, 0, planet: Planet['Eris']
-create_defenses_for 900, 100, 0, 1, 0, 1, planet: Planet['Ariane']
-create_defenses_for 218, 44, 25, 2, 4, 0, planet: Planet['Nyx']
+# me = Player.create(name: 'yoyo rapido')
+#
+# my_planets = Planet.create([
+#   {player: me, name: 'Artemis', temperature: 81},
+#   {player: me, name: 'Cassini', temperature: 53},
+#   {player: me, name: 'Europe', temperature: 67},
+#   {player: me, name: 'Eris', temperature: 75},
+#   {player: me, name: 'Ariane', temperature: 28},
+#   {player: me, name: 'Nyx', temperature: 28},
+# ])
+#
+# def create_research_for *levels, player:
+#   %i[
+#     energy_tech
+#     laser_tech
+#     ion_tech
+#     hyperspace_tech
+#     plasma_tech
+#     combustion_engine_tech
+#     impulsion_engine_tech
+#     hyperspace_engine_tech
+#     spy_tech
+#     computer_tech
+#     astrophysics_tech
+#     intergalactic_tech
+#     weapon_tech
+#     shield_tech
+#     armor_tech
+#   ].each_with_index do |name, index|
+#     Research.create(player: player, blueprint: Blueprint[name], level: levels[index])
+#   end
+# end
+#
+# create_research_for 10, 10, 5, 8, 8, 6, 7, 0, 5, 10, 9, 0, 7, 6, 7, player: me
+#
+# def create_buildings_for *levels, planet:
+#   %i[
+#     metal_mine
+#     cristal_mine
+#     deuterium_mine
+#     solar_plant
+#     fusion_plant
+#     metal_storage
+#     cristal_storage
+#     deuterium_storage
+#     robots_factory
+#     ships_factory
+#     research_factory
+#     nanite_factory
+#   ].each_with_index do |name, index|
+#     Building.create(planet: planet, blueprint: Blueprint[name], level: levels[index])
+#   end
+# end
+#
+# create_buildings_for 26, 22, 15, 24, 10, 9, 7, 4, 10, 8, 7, 1, planet: Planet['Artemis']
+# create_buildings_for 25, 21, 16, 24, 10, 9, 7, 5, 10, 8, 0, 1, planet: Planet['Cassini']
+# create_buildings_for 25, 22, 16, 24, 11, 9, 7, 5, 10, 8, 8, 1, planet: Planet['Europe']
+# create_buildings_for 24, 22, 14, 23, 9, 9, 7, 4, 10, 8, 0, 1, planet: Planet['Eris']
+# create_buildings_for 26, 22, 15, 24, 11, 9, 7, 4, 10, 8, 0, 1, planet: Planet['Ariane']
+# create_buildings_for 22, 19, 12, 21, 6, 8, 7, 4, 10, 8, 0, 1, planet: Planet['Nyx']
+#
+# def create_defenses_for *levels, planet:
+#   %i[
+#     missile_artillery
+#     laser_artillery
+#     heavy_laser_artillery
+#     gauss_artillery
+#     ion_artillery
+#     plasma_artillery
+#   ].each_with_index do |name, index|
+#     Building.create(planet: planet, blueprint: Blueprint[name], level: levels[index])
+#   end
+# end
+#
+# create_defenses_for 1400, 50, 20, 0, 50, 0, planet: Planet['Artemis']
+# create_defenses_for 1550, 75, 30, 0, 50, 0, planet: Planet['Cassini']
+# create_defenses_for 1080, 50, 100, 0, 60, 0, planet: Planet['Europe']
+# create_defenses_for 1025, 100, 0, 0, 15, 0, planet: Planet['Eris']
+# create_defenses_for 900, 100, 0, 1, 0, 1, planet: Planet['Ariane']
+# create_defenses_for 218, 44, 25, 2, 4, 0, planet: Planet['Nyx']
+#
+# me = Player.create(name: 'petrochou')
+#
+# my_planets = Planet.create([
+#   {player: me, name: 'PT1', temperature: 81},
+#   {player: me, name: 'PT2', temperature: 47},
+#   {player: me, name: 'PT3', temperature: 32},
+#   {player: me, name: 'PT4', temperature: 78},
+#   {player: me, name: 'PT5', temperature: 54},
+#   {player: me, name: 'PT6', temperature: 39},
+#   {player: me, name: 'PT7', temperature: 94},
+#   {player: me, name: 'PT8', temperature: 24},
+# ])
+#
+# create_research_for 14, 12, 5, 8, 11, 14, 11, 6, 14, 12, 13, 5, 14, 14, 15, player: me
+#
+# create_buildings_for 25, 22, 18, 27, 0, 8, 7, 5, 10, 8, 10, 1, planet: Planet['PT1']
+# create_buildings_for 30, 27, 23, 32, 0, 12, 11, 10, 10, 10, 10, 3, planet: Planet['PT2']
+# create_buildings_for 30, 27, 23, 32, 0, 8, 7, 5, 10, 8, 10, 3, planet: Planet['PT3']
+# create_buildings_for 30, 27, 23, 32, 0, 8, 7, 5, 10, 8, 10, 3, planet: Planet['PT4']
+# create_buildings_for 30, 27, 23, 32, 0, 8, 7, 5, 10, 8, 10, 3, planet: Planet['PT5']
+# create_buildings_for 30, 24, 18, 31, 0, 8, 7, 5, 10, 8, 10, 3, planet: Planet['PT6']
+# create_buildings_for 25, 22, 18, 27, 0, 8, 7, 5, 10, 8, 10, 3, planet: Planet['PT7']
+# create_buildings_for 25, 22, 18, 27, 0, 8, 7, 5, 10, 8, 10, 1, planet: Planet['PT8']
+#
+# create_defenses_for 400, 200, 100, 10, 0, 0, planet: Planet['PT1']
+# create_defenses_for 32_000, 5_000, 3_000, 600, 200, 350, planet: Planet['PT2']
+# create_defenses_for 200, 100, 50, 5, 0, 0, planet: Planet['PT3']
+# create_defenses_for 200, 100, 50, 5, 0, 0, planet: Planet['PT4']
+# create_defenses_for 200, 100, 50, 5, 0, 0, planet: Planet['PT5']
+# create_defenses_for 200, 100, 50, 5, 0, 0, planet: Planet['PT6']
+# create_defenses_for 200, 100, 50, 5, 0, 0, planet: Planet['PT7']
+# create_defenses_for 200, 100, 50, 5, 0, 0, planet: Planet['PT8']
