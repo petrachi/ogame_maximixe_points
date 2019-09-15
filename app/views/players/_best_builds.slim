@@ -1,0 +1,24 @@
+#best-builds
+  = render partial: "build", locals: {build: player.production_advisor.best_build, include_planet: true}
+  hr
+  = render partial: "build", locals: {build: player.energy_advisor.best_build, include_planet: true}
+  hr
+  = render partial: "build", locals: {build: player.artillery_advisor.best_build, include_planet: true}
+  
+  
+  / 
+  / = render partial: "best_build", locals: {build: player.production_advisor.best_build}
+  / - if player.energy_advisor.best_build
+  /   hr
+  /   = render partial: "best_build", locals: {build: player.energy_advisor.best_build}
+  
+  / hr
+  / #best-research
+  /   h3 = research[:planet].name
+  /   p = research[:buildings].first.blueprint.name.humanize
+  /   .index
+  /     .bar[style="width: #{ research[:percentage_index] * 100 }%"]
+  /   = form_with url: upto_level_research_path(research[:buildings].first) do |f|
+  /     = hidden_field_tag :upto, research[:upto]
+  /     = hidden_field_tag :planet_id, research[:planet].id
+  /     = f.submit "Rechercher le niveau #{ research[:upto] }"

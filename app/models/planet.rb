@@ -14,7 +14,7 @@ class Planet < ApplicationRecord
     find_by(name: value)
   end
 
-  delegate :costs, :produces, :stocks, to: :buildings
+  delegate :costs, :cumulative_costs, :produces, :stocks, to: :buildings
 
   def update_ressources_since_last_production!
     now = Time.now
@@ -40,22 +40,22 @@ class Planet < ApplicationRecord
       end
   end
 
-  def ressources
-    holds.each_with_object({}) do |(ressource, hold), acc|
-      acc[ressource] = {
-        holds: hold,
-        produces: produces[ressource],
-        stocks: stocks[ressource],
-      }
-    end
-  end
+  # def ressources
+  #   holds.each_with_object({}) do |(ressource, hold), acc|
+  #     acc[ressource] = {
+  #       holds: hold,
+  #       produces: produces[ressource],
+  #       stocks: stocks[ressource],
+  #     }
+  #   end
+  # end
 
-  def holds
-    attributes
-      .slice(*%w[metal cristal deuterium])
-      .map{ |k, v| [k.to_sym, v] }
-      .to_h
-  end
+  # def holds
+  #   attributes
+  #     .slice(*%w[metal cristal deuterium])
+  #     .map{ |k, v| [k.to_sym, v] }
+  #     .to_h
+  # end
 
   def energy_efficiency(extra_consumption: 0)
     if produces[:energy] > extra_consumption

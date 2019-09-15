@@ -1,11 +1,15 @@
 class ArtilleryAdvisor < Advisor
-  def calculators
+  def compilers
     [
-      ArtilleryCostsCalculator,
+      MissileArtilleryCompiler,
+      LaserArtilleryCompiler,
+      HeavyLaserArtilleryCompiler,
+      GaussArtilleryCompiler,
+      IonArtilleryCompiler,
+      PlasmaArtilleryCompiler,
+      WeaponTechCompiler,
+      ShieldTechCompiler,
+      ArmorTechCompiler,
     ]
-  end
-
-  def call
-    build_list.sort_by{ |build| build[:planet].id }
   end
 end

@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190824194957) do
+ActiveRecord::Schema.define(version: 20190906151415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "blueprints", force: :cascade do |t|
     t.string "name"
@@ -29,6 +30,15 @@ ActiveRecord::Schema.define(version: 20190824194957) do
     t.datetime "updated_at", null: false
     t.index ["blueprint_id"], name: "index_buildings_on_blueprint_id"
     t.index ["planet_id"], name: "index_buildings_on_planet_id"
+  end
+
+  create_table "builds", force: :cascade do |t|
+    t.integer "produces"
+    t.hstore "costs"
+    t.string "uid"
+    t.boolean "compiled", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "effects", force: :cascade do |t|

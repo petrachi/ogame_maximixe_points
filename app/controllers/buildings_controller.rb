@@ -31,6 +31,6 @@ class BuildingsController < ApplicationController
 
   def increment_one_level *_
     @building.update! level: @building.level + 1
-    @building.planet.update_ressources! @building.costs.map{ |k, v| [k, -v] }.to_h
+    # @building.planet.update_ressources! @building.costs.map{ |k, v| [k, -v] }.to_h
   end
 end

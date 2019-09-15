@@ -1,0 +1,26 @@
+- include_planet ||= false
+- include_percentage ||= false
+
+.building-build[class="#{"danger" if build.warnings.present?}"]
+  - if include_planet
+    h3 = build.planet.name
+  p = build.building.blueprint.name.humanize
+  .index
+    - if include_percentage
+      | #{ (build.percentage * 100).round(1) }%
+    .bar[style="width: #{ build.percentage * 100 }%"]
+      - if include_percentage
+        span #{ (build.percentage * 100).round(1) }%
+  - if build.type == :tech
+    = form_with url: upto_level_research_path(build.building) do |f|
+      = hidden_field_tag :upto, build.upto
+      = hidden_field_tag :planet_id, build.planet.id
+      = f.submit "Rechercher le niveau #{ "%02d" % build.upto }"
+  - elsif build.type == :artillery
+    = form_with url: upto_level_building_path(build.building) do |f|
+      = hidden_field_tag :upto, build.upto
+      = f.submit "Contruire #{ "%02d" % (build.increment) } supplémentaire"
+  - else
+    = form_with url: upto_level_building_path(build.building) do |f|
+      = hidden_field_tag :upto, build.upto
+      = f.submit "Construire le niveau #{ "%02d" % build.upto }"

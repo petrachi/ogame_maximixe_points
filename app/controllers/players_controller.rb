@@ -35,28 +35,28 @@ class PlayersController < ApplicationController
     redirect_to player
   end
 
-  def advisor
-    @player = find_player
-    @advisor = Advisor.new(@player)
-  end
-
-  def building_advisor
-    @player = find_player
-    @advisor = BuildingAdvisor.new(@player)
-    render :advisor
-  end
-
-  def research_advisor
-    @player = find_player
-    @advisor = ResearchAdvisor.new(@player)
-    render :advisor
-  end
-
-  def artillery_advisor
-    @player = find_player
-    @advisor = ArtilleryAdvisor.new(@player)
-    render :advisor
-  end
+  # def advisor
+  #   @player = find_player
+  #   @advisor = Advisor.new(@player)
+  # end
+  #
+  # def building_advisor
+  #   @player = find_player
+  #   @advisor = BuildingAdvisor.new(@player)
+  #   render :advisor
+  # end
+  #
+  # def research_advisor
+  #   @player = find_player
+  #   @advisor = ResearchAdvisor.new(@player)
+  #   render :advisor
+  # end
+  #
+  # def artillery_advisor
+  #   @player = find_player
+  #   @advisor = ArtilleryAdvisor.new(@player)
+  #   render :advisor
+  # end
 
   def find_player
     Player.find_by id: params[:id]

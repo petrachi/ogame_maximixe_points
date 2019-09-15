@@ -67,6 +67,14 @@ class ProductionCostsCalculator::ByRessource < BaseCostsCalculator::ByRessource
   end
 
   def compute_energy_efficiency
+    # if ressource == :energy
+    #   base_production = planet.produces.except(:energy).values.inject(0, &:+)
+    #   base_production_for_one = base_production / planet.buildings.where_name(%i[solar_plant fusion_plant]).produces[:energy]
+    #   self.produces = produces[:energy] * base_production_for_one
+    # else
+    #   self.produces = produces[ressource]
+    # end
+
     self.produces = if planet.produces[:energy] < 0
       if ressource == :energy
         base_production = planet.produces.except(:energy).values.inject(0, &:+)

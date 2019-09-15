@@ -3,6 +3,10 @@ module EffectScopes
     effect(effect: :costs, **options)
   end
 
+  def cumulative_costs **options
+    effect(effect: :costs, effect_method: :cumulative_costs, **options)
+  end
+
   def produces **options
     effect(effect: :produces, **options)
   end
@@ -15,13 +19,18 @@ module EffectScopes
     effect(effect: :sustains, **options)
   end
 
+  def cumulative_sustains **options
+    effect(effect: :sustains, effect_method: :cumulative_sustains, **options)
+  end
+
   def damages **options
     effect(effect: :damages, **options)
   end
 
-  def effect effect:, **options
+  def effect effect:, effect_method: nil, **options
+    effect_method ||= effect
     where_effect(effect)
-      .map{ |building| building.send effect, **options }
+      .map{ |building| building.send effect_method, **options }
       .each_with_object({}) do |effect, acc|
         acc.merge!(effect, &merge_proc(:+))
       end

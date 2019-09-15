@@ -504,139 +504,139 @@ effects = Effect.create([
     blueprint: Blueprint['missile_artillery'],
     effect: 'sustains',
     ressource: 'hull',
-    quantity: '2000 * {level}'
+    quantity: '2000 * (1 + {military_tech}/10.0)'
   },
   {
     blueprint: Blueprint['missile_artillery'],
     effect: 'costs',
     ressource: 'metal',
-    quantity: '2000 * {level}'
+    quantity: '2000'
   },
   {
     blueprint: Blueprint['laser_artillery'],
     effect: 'sustains',
     ressource: 'hull',
-    quantity: '2000 * {level}'
+    quantity: '2000 * (1 + {military_tech}/10.0)'
   },
   {
     blueprint: Blueprint['laser_artillery'],
     effect: 'costs',
     ressource: 'metal',
-    quantity: '1500 * {level}'
+    quantity: '1500'
   },
   {
     blueprint: Blueprint['laser_artillery'],
     effect: 'costs',
     ressource: 'cristal',
-    quantity: '500 * {level}',
+    quantity: '500',
   },
   {
     blueprint: Blueprint['heavy_laser_artillery'],
     effect: 'sustains',
     ressource: 'hull',
-    quantity: '8000 * {level}'
+    quantity: '8000 * (1 + {military_tech}/10.0)'
   },
   {
     blueprint: Blueprint['heavy_laser_artillery'],
     effect: 'costs',
     ressource: 'metal',
-    quantity: '6000 * {level}'
+    quantity: '6000'
   },
   {
     blueprint: Blueprint['heavy_laser_artillery'],
     effect: 'costs',
     ressource: 'cristal',
-    quantity: '2000 * {level}'
+    quantity: '2000'
   },
   {
     blueprint: Blueprint['gauss_artillery'],
     effect: 'sustains',
     ressource: 'hull',
-    quantity: '35_000 * {level}'
+    quantity: '35_000 * (1 + {military_tech}/10.0)'
   },
   {
     blueprint: Blueprint['gauss_artillery'],
     effect: 'costs',
     ressource: 'metal',
-    quantity: '20_000 * {level}'
+    quantity: '20_000'
   },
   {
     blueprint: Blueprint['gauss_artillery'],
     effect: 'costs',
     ressource: 'cristal',
-    quantity: '15_000 * {level}'
+    quantity: '15_000'
   },
   {
     blueprint: Blueprint['gauss_artillery'],
     effect: 'costs',
     ressource: 'deuterium',
-    quantity: '2000 * {level}'
+    quantity: '2000'
   },
   {
     blueprint: Blueprint['ion_artillery'],
     effect: 'sustains',
     ressource: 'hull',
-    quantity: '8_000 * {level}'
+    quantity: '8_000 * (1 + {military_tech}/10.0)'
   },
   {
     blueprint: Blueprint['ion_artillery'],
     effect: 'costs',
     ressource: 'metal',
-    quantity: '2000 * {level}'
+    quantity: '2000'
   },
   {
     blueprint: Blueprint['ion_artillery'],
     effect: 'costs',
     ressource: 'cristal',
-    quantity: '6000 * {level}'
+    quantity: '6000'
   },
   {
     blueprint: Blueprint['plasma_artillery'],
     effect: 'sustains',
     ressource: 'hull',
-    quantity: '100_000 * {level}'
+    quantity: '100_000 * (1 + {military_tech}/10.0)'
   },
   {
     blueprint: Blueprint['plasma_artillery'],
     effect: 'costs',
     ressource: 'metal',
-    quantity: '50_000 * {level}'
+    quantity: '50_000'
   },
   {
     blueprint: Blueprint['plasma_artillery'],
     effect: 'costs',
     ressource: 'cristal',
-    quantity: '50_000 * {level}'
+    quantity: '50_000'
   },
   {
     blueprint: Blueprint['plasma_artillery'],
     effect: 'costs',
     ressource: 'deuterium',
-    quantity: '30_000 * {level}'
+    quantity: '30_000'
   },
   {
     blueprint: Blueprint['interplanetary_rocket'],
     effect: 'damages',
     ressource: 'hull',
-    quantity: '12_000 * {level}'
+    quantity: '12_000 * (1 + {military_tech}/10.0)'
   },
   {
     blueprint: Blueprint['interplanetary_rocket'],
     effect: 'costs',
     ressource: 'metal',
-    quantity: '12_500 * {level}'
+    quantity: '12_500'
   },
   {
     blueprint: Blueprint['interplanetary_rocket'],
     effect: 'costs',
     ressource: 'cristal',
-    quantity: '2500 * {level}'
+    quantity: '2500'
   },
   {
     blueprint: Blueprint['interplanetary_rocket'],
     effect: 'costs',
     ressource: 'deuterium',
-    quantity: '10_000 * {level}'
+    quantity: '10_000'
   },
 ])
 

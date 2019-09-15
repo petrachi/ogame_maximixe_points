@@ -1,33 +1,25 @@
 .builds
   .buildings
-    - advisor \
-      .build_list \
-      .select { |build| build[:planet] == planet && build[:type] == :building } \
-      .each do |build|
-      .building-build[class="#{"danger" if build[:ratio_index] == 1.0/0}"]
-        p = build[:buildings].first.blueprint.name.humanize
-        .index
-          | #{ (build[:percentage_index] * 100).round(1) }%
-          .bar[style="width: #{ build[:percentage_index] * 100 }%"]
-            span #{ (build[:percentage_index] * 100).round(1) }%
-        = form_with url: upto_level_building_path(build[:buildings].first) do |f|
-          = hidden_field_tag :upto, build[:upto]
-          = f.submit "Construire le niveau #{ build[:upto] }"
-  
-  - researches = advisor \
-      .build_list \
-      .select { |build| build[:planet] == planet && build[:type] == :research }
-  - if researches.present?
+    = render partial: "build", collection: player.production_advisor.build_list_by(planet: planet), locals: {include_percentage: true}
     hr
-    .researches
-      - researches.each do |build|
-        .research-build
-          p = build[:buildings].first.blueprint.name.humanize
-          .index
-            | #{ (build[:percentage_index] * 100).round(1) }%
-            .bar[style="width: #{ build[:percentage_index] * 100 }%"]
-              span #{ (build[:percentage_index] * 100).round(1) }%
-          = form_with url: upto_level_research_path(build[:buildings].first) do |f|
-            = hidden_field_tag :upto, build[:upto]
-            = hidden_field_tag :planet_id, build[:planet].id
-            = f.submit "Rechercher le niveau #{ build[:upto] }"
+    = render partial: "build", collection: player.energy_advisor.build_list_by(planet: planet), locals: {include_percentage: true}
+    hr
+    = render partial: "build", collection: player.artillery_advisor.build_list_by(planet: planet), locals: {include_percentage: true}
+    
+  / - researches = advisor \
+  /     .build_list \
+  /     .select { |build| build[:planet] == planet && build[:type] == :research }
+  / - if researches.present?
+  /   hr
+  /   .researches
+  /     - researches.each do |build|
+  /       .research-build
+  /         p = build[:buildings].first.blueprint.name.humanize
+  /         .index
+  /           | #{ (build[:percentage_index] * 100).round(1) }%
+  /           .bar[style="width: #{ build[:percentage_index] * 100 }%"]
+  /             span #{ (build[:percentage_index] * 100).round(1) }%
+  /         = form_with url: upto_level_research_path(build[:buildings].first) do |f|
+  /           = hidden_field_tag :upto, build[:upto]
+  /           = hidden_field_tag :planet_id, build[:planet].id
+  /           = f.submit "Rechercher le niveau #{ build[:upto] }"

@@ -9,10 +9,11 @@
   h1 
     span = player.name
     
-  = render partial: 'production_ratio', locals: {player: player, advisor: player.advisor}
-  = render partial: 'best_choices', locals: {build: player.advisor.best_build, research: player.advisor.best_reaserch}
+  = render partial: 'production_ratio', locals: {player: player, advisor: player.production_advisor}
+  = render partial: 'best_builds', locals: {player: player}
+  / = render partial: 'best_choices', locals: {build: player.production_advisor.best_build, research: player.advisor.best_reaserch}
   
-  ul#planets-list = render player.planets.order(:id), advisor: player.advisor
+  ul#planets-list = render player.planets.order(:id), player: player
     
   #new-planet
     h3 Coloniser une nouvelle planète
@@ -25,12 +26,12 @@
         = f.label :name, "Nom"
       
       .floating-input
-        = f.number_field :temperature, placeholder: "Température maximale sur la planète (ex: 81)"
-        = f.label :temperature, "Température"
-        
-      .floating-input
         = f.number_field :size, placeholder: "Nombre de cases de la planète (ex: 193)"
         = f.label :size, "Taille"
+        
+      .floating-input
+        = f.number_field :temperature, placeholder: "Température maximale sur la planète (ex: 81)"
+        = f.label :temperature, "Température"
         
       = f.submit "Créez une nouvelle planète"
 
