@@ -6,7 +6,7 @@ gem 'rails', '~> 5.1.3'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 # Use Puma as the app server
-gem 'puma', '~> 3.0'
+gem 'puma', '~> 3.12'
 # Use 12 factor for easy deploy w/ Heroku
 gem 'rails_12factor', '~> 0.0.3', group: :production
 # Use slim for views
