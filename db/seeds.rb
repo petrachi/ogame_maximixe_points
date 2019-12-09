@@ -41,6 +41,9 @@ blueprints = Blueprint.create([
   {name: 'ion_artillery'},
   {name: 'plasma_artillery'},
   {name: 'interplanetary_rocket'},
+  {name: 'transport_ship'},
+  {name: 'heavy_transport_ship'},
+  {name: 'recycling_ship'},
 ])
 
 effects = Effect.create([
@@ -504,7 +507,7 @@ effects = Effect.create([
     blueprint: Blueprint['missile_artillery'],
     effect: 'sustains',
     ressource: 'hull',
-    quantity: '2000 * (1 + {military_tech}/10.0)'
+    quantity: '200 * (1 + {military_tech}/10.0)'
   },
   {
     blueprint: Blueprint['missile_artillery'],
@@ -516,7 +519,7 @@ effects = Effect.create([
     blueprint: Blueprint['laser_artillery'],
     effect: 'sustains',
     ressource: 'hull',
-    quantity: '2000 * (1 + {military_tech}/10.0)'
+    quantity: '200 * (1 + {military_tech}/10.0)'
   },
   {
     blueprint: Blueprint['laser_artillery'],
@@ -534,7 +537,7 @@ effects = Effect.create([
     blueprint: Blueprint['heavy_laser_artillery'],
     effect: 'sustains',
     ressource: 'hull',
-    quantity: '8000 * (1 + {military_tech}/10.0)'
+    quantity: '800 * (1 + {military_tech}/10.0)'
   },
   {
     blueprint: Blueprint['heavy_laser_artillery'],
@@ -552,13 +555,13 @@ effects = Effect.create([
     blueprint: Blueprint['gauss_artillery'],
     effect: 'sustains',
     ressource: 'hull',
-    quantity: '35_000 * (1 + {military_tech}/10.0)'
+    quantity: '3500 * (1 + {military_tech}/10.0)'
   },
   {
     blueprint: Blueprint['gauss_artillery'],
     effect: 'costs',
     ressource: 'metal',
-    quantity: '20_000'
+    quantity: '2000'
   },
   {
     blueprint: Blueprint['gauss_artillery'],
@@ -576,7 +579,7 @@ effects = Effect.create([
     blueprint: Blueprint['ion_artillery'],
     effect: 'sustains',
     ressource: 'hull',
-    quantity: '8_000 * (1 + {military_tech}/10.0)'
+    quantity: '800 * (1 + {military_tech}/10.0)'
   },
   {
     blueprint: Blueprint['ion_artillery'],
@@ -594,7 +597,7 @@ effects = Effect.create([
     blueprint: Blueprint['plasma_artillery'],
     effect: 'sustains',
     ressource: 'hull',
-    quantity: '100_000 * (1 + {military_tech}/10.0)'
+    quantity: '10_000 * (1 + {military_tech}/10.0)'
   },
   {
     blueprint: Blueprint['plasma_artillery'],
@@ -637,6 +640,66 @@ effects = Effect.create([
     effect: 'costs',
     ressource: 'deuterium',
     quantity: '10_000'
+  },
+  {
+    blueprint: Blueprint['transport_ship'],
+    effect: 'stocks',
+    ressource: 'all',
+    quantity: '5_000 * {level} * (1 + {hyperspace_tech}/20.0)'
+  },
+  {
+    blueprint: Blueprint['transport_ship'],
+    effect: 'costs',
+    ressource: 'metal',
+    quantity: '2_000'
+  },
+  {
+    blueprint: Blueprint['transport_ship'],
+    effect: 'costs',
+    ressource: 'cristal',
+    quantity: '2_000'
+  },
+  {
+    blueprint: Blueprint['heavy_transport_ship'],
+    effect: 'stocks',
+    ressource: 'all',
+    quantity: '25_000 * {level} * (1 + {hyperspace_tech}/20.0)'
+  },
+  {
+    blueprint: Blueprint['heavy_transport_ship'],
+    effect: 'costs',
+    ressource: 'metal',
+    quantity: '6_000'
+  },
+  {
+    blueprint: Blueprint['heavy_transport_ship'],
+    effect: 'costs',
+    ressource: 'cristal',
+    quantity: '6_000'
+  },
+  {
+    blueprint: Blueprint['recycling_ship'],
+    effect: 'stocks',
+    ressource: 'all',
+    quantity: '20_000 * {level} * (1 + {hyperspace_tech}/20.0)'
+  },
+  {
+    blueprint: Blueprint['recycling_ship'],
+    effect: 'costs',
+    ressource: 'metal',
+    quantity: '10_000'
+  },
+  {
+    blueprint: Blueprint['recycling_ship'],
+    effect: 'costs',
+    ressource: 'cristal',
+    quantity: '6_000'
+  },
+  {
+    blueprint: Blueprint['recycling_ship'],
+    effect: 'costs',
+    ressource: 'deuterium',
+    quantity: '2_000'
   },
 ])
 

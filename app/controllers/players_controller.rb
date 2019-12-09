@@ -59,7 +59,12 @@ class PlayersController < ApplicationController
   # end
 
   def find_player
-    Player.find_by id: params[:id]
+    Player
+      .includes(
+        planets: {buildings: :blueprint},
+        researches: :blueprint
+      )
+      .find_by(id: params[:id])
   end
 
   def player_params

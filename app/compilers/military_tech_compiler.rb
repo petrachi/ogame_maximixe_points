@@ -1,6 +1,6 @@
 class MilitaryTechCompiler < TechCompiler
-  def uid
-    "#{ blueprint_name } #{ building.level }, #{ player.buildings.where_name(/^.*_artillery$/).pluck(:level) }"
+  def uid_buildings
+    /^.*_artillery$/
   end
 
   def compile_produces

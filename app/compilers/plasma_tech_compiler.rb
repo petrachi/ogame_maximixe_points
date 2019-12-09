@@ -3,8 +3,8 @@ class PlasmaTechCompiler < TechCompiler
     :plasma
   end
 
-  def uid
-    "#{ blueprint_name } #{ building.level }, #{ player.buildings.where_name(%i[metal_mine cristal_mine deuterium_mine]).pluck(:level) }"
+  def uid_buildings
+    /^.*_mine$/
   end
 
   def compile_produces

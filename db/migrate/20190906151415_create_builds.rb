@@ -5,6 +5,7 @@ class CreateBuilds < ActiveRecord::Migration[5.1]
     create_table :builds do |t|
       t.integer :produces
       t.hstore :costs
+      t.integer :upto
       t.string :uid
 
       t.boolean :compiled, default: false

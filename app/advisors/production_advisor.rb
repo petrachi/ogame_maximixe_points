@@ -5,6 +5,7 @@ class ProductionAdvisor < Advisor
       CristalMineCompiler,
       DeuteriumMineCompiler,
       PlasmaTechCompiler,
+      AstrophysicsTechCompiler,
       MetalStorageCompiler,
       CristalStorageCompiler,
       DeuteriumStorageCompiler,

@@ -8,7 +8,7 @@ class PlanetCompiler
     self.build = Build.find_or_create_by(uid: uid)
 
     unless build.compiled?
-      build.update compiled: true, **compile_produces_and_costs
+      build.update compiled: true, upto: compile_upto, **compile_produces_and_costs
     end
 
     self.index = 1.0 / 0
@@ -29,18 +29,30 @@ class PlanetCompiler
   end
 
   def uid
-    raise NotImplementedError
+    basic_uid << specific_uid
   end
 
-  def upto
-    building.level + 1
+  def basic_uid
+    "#{ blueprint_name }##{ building.level } - "
+  end
+
+  def specific_uid
+    planet.buildings.where_name(uid_buildings).pluck(:level).sort.to_s
+  end
+
+  def uid_buildings
+    raise NotImplementedError
   end
 
   def increment
     upto - building.level
   end
 
-  delegate :produces, :costs, to: :build
+  delegate :upto, :produces, :costs, to: :build
+
+  def compile_upto
+    building.level + 1
+  end
 
   def compile_produces_and_costs
     {produces: compile_produces, costs: compile_costs}

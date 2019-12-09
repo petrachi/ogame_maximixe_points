@@ -9,7 +9,7 @@ class TechCompiler < PlanetCompiler
     self.build = Build.find_or_create_by(uid: uid)
 
     unless build.compiled?
-      build.update compiled: true, **compile_produces_and_costs
+      build.update compiled: true, upto: compile_upto, **compile_produces_and_costs
     end
 
     self.index = 1.0 / 0
@@ -25,8 +25,8 @@ class TechCompiler < PlanetCompiler
     "#{ ressource }_tech"
   end
 
-  def uid
-    "#{ blueprint_name } #{ building.level }"
+  def specific_uid
+    player.buildings.where_name(uid_buildings).pluck(:level).sort.to_s
   end
 
   def compile_costs

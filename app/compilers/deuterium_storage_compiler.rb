@@ -4,6 +4,6 @@ class DeuteriumStorageCompiler < StorageCompiler
   end
 
   def uid
-    super << ", #{ planet.buildings['fusion_plant'].level }"
+    super << " - #{ planet.temperature }"
   end
 end

@@ -53,7 +53,14 @@ class Player < ApplicationRecord
   #   effects(effect: :holds, **options)
   # end
 
-  def effects effect:, **options
+  def effects **options
+    @effects ||= Hash.new do |hash, key|
+      hash[key] = compute_effects(**key)
+    end
+    @effects[options]
+  end
+
+  def compute_effects effect:, **options
     buildings.send(effect, **options).merge(researches.send(effect, **options), &merge_proc(:+))
   end
 

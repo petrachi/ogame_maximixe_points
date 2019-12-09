@@ -27,7 +27,14 @@ module EffectScopes
     effect(effect: :damages, **options)
   end
 
-  def effect effect:, effect_method: nil, **options
+  def effect **options
+    @effect ||= Hash.new do |hash, key|
+      hash[key] = compute_effect(**key)
+    end
+    @effect[options]
+  end
+
+  def compute_effect effect:, effect_method: nil, **options
     effect_method ||= effect
     where_effect(effect)
       .map{ |building| building.send effect_method, **options }

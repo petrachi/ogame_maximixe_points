@@ -3,8 +3,8 @@ class EnergyTechCompiler < TechCompiler
     :energy
   end
 
-  def uid
-    "#{ blueprint_name } #{ building.level }, #{ player.buildings.where_name(:fusion_plant).pluck(:level) }"
+  def uid_buildings
+    :fusion_plant
   end
 
   def compile_produces

@@ -15,7 +15,7 @@
     = form_with url: upto_level_research_path(build.building) do |f|
       = hidden_field_tag :upto, build.upto
       = hidden_field_tag :planet_id, build.planet.id
-      = f.submit "Rechercher le niveau #{ "%02d" % build.upto }"
+      = f.submit "Rechercher le niveau #{ "%02d" % build.upto.to_i }"
   - elsif build.type == :artillery
     = form_with url: upto_level_building_path(build.building) do |f|
       = hidden_field_tag :upto, build.upto
@@ -23,4 +23,4 @@
   - else
     = form_with url: upto_level_building_path(build.building) do |f|
       = hidden_field_tag :upto, build.upto
-      = f.submit "Construire le niveau #{ "%02d" % build.upto }"
+      = f.submit "Construire le niveau #{ "%02d" % build.upto.to_i }"

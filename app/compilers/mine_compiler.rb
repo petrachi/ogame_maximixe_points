@@ -8,7 +8,11 @@ class MineCompiler < PlanetCompiler
   end
 
   def uid
-    "#{ blueprint_name } #{ building.level }, #{ planet.buildings["solar_plant"].level }, #{ planet.buildings["fusion_plant"].level }, #{ planet.buildings["deuterium_mine"].level }"
+    super << " - #{ planet.temperature }"
+  end
+
+  def uid_buildings
+    %i[deuterium_mine solar_plant fusion_plant]
   end
 
   def compile_produces_and_costs

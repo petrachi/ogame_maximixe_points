@@ -13,8 +13,8 @@ class StorageCompiler < PlanetCompiler
     "#{ ressource }_storage"
   end
 
-  def uid
-    "#{ blueprint_name } #{ building.level }, #{ planet.buildings["#{ ressource }_mine"].level }"
+  def uid_buildings
+    "#{ ressource }_mine"
   end
 
   def compile_produces
